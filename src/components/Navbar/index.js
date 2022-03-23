@@ -5,7 +5,7 @@ const Navbar = () => {
     return (
         <Nav>
             <NavMenu>
-                <NavLink to="/home" activeStyle>
+                <NavLink to="/" activeStyle>
                     Início
                 </NavLink>
                 <NavLink to="/form" activeStyle>
