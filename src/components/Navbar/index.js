@@ -3,8 +3,9 @@ import { Nav, NavLink, NavMenu} from "./NavbarElements";
 
 const Navbar = () => {
     return (
-        <Nav>
-            <NavMenu>
+        <Nav className="navbar navbar-expand-sm navbar-dark fixed-top">
+            <div className="container-fluid">
+            <img src="/images/notas-musicais.png" alt="Generify Music Logo" style={"width: 50px; height: auto; padding-right: 10px;"}/>
                 <NavLink to="/" activeStyle>
                     Início
                 </NavLink>
@@ -17,7 +18,7 @@ const Navbar = () => {
                 <NavLink to="/faq" activeStyle>
                     FAQ
                 </NavLink>
-            </NavMenu>
+            </div>
         </Nav>
     );
 };
