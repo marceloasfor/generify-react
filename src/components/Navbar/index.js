@@ -1,11 +1,12 @@
 import React from "react";
 import { Nav, NavLink, LogoLink} from "./NavbarElements";
+import logo from '../../images/notas-musicais.png'
 
 const Navbar = () => {
     return (
         <Nav className="navbar navbar-expand-sm navbar-dark fixed-top">
             <div className="container-fluid">
-            <img src={"/images/notas-musicais.png"} alt="Generify Music Logo"/>
+            <img src={logo} alt="Generify Music Logo" style={{width: '50px', height: 'auto', paddingRight: '10px'}}/>
             <LogoLink className="navbar-brand" to="/" activeStyle><b className="main-font">Generify</b></LogoLink>
             <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
                 <span className="navbar-toggler-icon"></span>

@@ -1,5 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import card1 from '../images/card0.jpg';
+import card2 from '../images/card2.jpg';
+import card3 from '../images/card3.jpg';
 
 const Home = () => {
 	return (
@@ -21,7 +24,7 @@ const Home = () => {
 			
 					<div className="col-sm-4 text-dark" >
 						<div className="card" style={{width: 'auto'}} >
-							<img className="card-img-top" src="/images/card0.jpg" alt="Card1" />
+							<img className="card-img-top" src={card1} alt="Card1" />
 							<div className="card-body">
 								<h4 className="card-title">Jazz and Soul</h4>
 								<p className="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean et massa id purus scelerisque congue. Ut augue lacus, interdum ut elementum ut, tincidunt eu arcu. Integer urna mi, iaculis sed consequat eu, lacinia sed nibh. Praesent faucibus, ex et iaculis efficitur, metus leo scelerisque ex, sed vestibulum lectus urna sed magna.</p>
@@ -33,7 +36,7 @@ const Home = () => {
 			
 					<div className="col-sm-4 text-dark">
 						<div className="card" style={{width: 'auto'}}>
-							<img className="card-img-top" src="/images/card2.jpg" alt="Card2" />
+							<img className="card-img-top" src={card2} alt="Card2" />
 							<div className="card-body">
 								<h4 className="card-title">Eletronic Music</h4>
 								<p className="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean et massa id purus scelerisque congue. Ut augue lacus, interdum ut elementum ut, tincidunt eu arcu. Integer urna mi, iaculis sed consequat eu, lacinia sed nibh. Praesent faucibus, ex et iaculis efficitur, metus leo scelerisque ex, sed vestibulum lectus urna sed magna.</p>
@@ -45,7 +48,7 @@ const Home = () => {
 			
 					<div className="col-sm-4 text-dark">
 						<div className="card" style={{width: 'auto'}}>
-							<img className="card-img-top" src="/images/card3.jpg" alt="Card3" />
+							<img className="card-img-top" src={card3} alt="Card3" />
 							<div className="card-body">
 								<h4 className="card-title">Relax Music</h4>
 								<p className="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean et massa id purus scelerisque congue. Ut augue lacus, interdum ut elementum ut, tincidunt eu arcu. Integer urna mi, iaculis sed consequat eu, lacinia sed nibh. Praesent faucibus, ex et iaculis efficitur, metus leo scelerisque ex, sed vestibulum lectus urna sed magna.</p>
