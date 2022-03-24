@@ -22,6 +22,10 @@ export const NavLink = styled(Link)`
     color: #4d4dff;
   }
 `;
+
+export const LogoLink = styled(Link)`
+  
+`;
   
 export const NavMenu = styled.div`
   display: flex;

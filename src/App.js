@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import Navbar from './components/Navbar';
+import Footer from './components/Footer';
 import { BrowserRouter as Router, Routes, Route}
 	from 'react-router-dom';
 import Home from './pages/index';
@@ -18,6 +19,7 @@ return (
 		<Route path='/form' element={<Form/>} />
 		<Route path='/login' element={<Login/>} />
 	</Routes>
+	<Footer />
 	</Router>
 );
 }
