@@ -1,10 +1,10 @@
-nav{
+nav {
   background-color: #10002b;
   box-shadow: 1px 1px 5px #070707;
 }
 
-body{
-  background-color:#e0aaff;
+body {
+  background-color: #e0aaff;
 }
 
 footer {
@@ -13,14 +13,14 @@ footer {
   background-color: #10002b;
   color: white;
   position: relative;
-  bottom:0;
-  left:0;
+  bottom: 0;
+  left: 0;
   margin-bottom: 0;
-  height:auto;
+  height: auto;
   width: 100%;
 }
 
-.main-banner{
+.main-banner {
   background-color: aliceblue;
   background-image: url("./images/bg5.jpg");
   background-repeat: no-repeat;
@@ -55,7 +55,8 @@ footer {
 }
 
 .main-button {
-  background-color: #06ad06; /* Green */
+  background-color: #06ad06;
+  /* Green */
   border: none;
   color: white;
   padding: 15px 32px;
@@ -82,28 +83,28 @@ footer {
   color: white;
 }
 
-.row{
+.row {
   position: relative;
   width: auto;
   height: auto;
 }
 
-.container-fluid{
+.container-fluid {
   margin-right: 10%;
-  margin-left:  10%;
+  margin-left: 10%;
 }
 
-.navbar-nav{
+.navbar-nav {
   color: aquamarine;
   font: bolder;
 }
 
-.collapse{
+.collapse {
   padding: 15px;
 }
 
-.card-img-top{
-  width:100%;
+.card-img-top {
+  width: 100%;
   height: 265px;
 }
 
@@ -114,27 +115,26 @@ li {
   font-size: 14px;
 }
 
-.p-footer{
+.p-footer {
   font-size: 14px;
   text-align: left;
   color: #9d4edd;
-  font-weight:bold;
+  font-weight: bold;
   margin-left: 30px;
   letter-spacing: 1.2px;
 }
 
-.a-footer{
+.a-footer {
   color: darkgray;
   text-decoration: none
-
 }
 
-.a-footer:hover{
+.a-footer:hover {
   color: #06ad06;
 }
 
-.main-font{
+.main-font {
   font-family: 'Sofia', sans-serif;
   font-size: 20pt;
-  color:#9d4edd;
+  color: #9d4edd;
 }
