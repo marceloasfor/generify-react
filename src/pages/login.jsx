@@ -1,111 +1,89 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button'
+import { Context } from '../context/AuthContext';
 
 const Login = () => {
-	return (
-		<div className="pg-form" >
-      
-      <div className="container">
-        <form className="row g-3 needs-validation" novalidate>
-          <div className="col-md-4">
-            <label for="validationCustom01" className="form-label">Nome</label>
-            <input type="text" className="form-control" id="validationCustom01" required/>
-            <div className="valid-feedback">
-              Válido!
+
+    const initialValues = { // Login values structure
+        username: "",
+        email: "",
+        password: "",
+        birthDate: ""
+    };
+
+    const [formValues, setFormValues] = useState(initialValues);    // Manage login values
+    const navigate = useNavigate(); // Hook for routes redirection
+    const { authenticated, handleLogin } = useContext(Context); // Authentication validations
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormValues({ ...formValues, [name]: value });    // Set login values to inputs
+        //console.log(formValues);
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        handleLogin(formValues);    // Check if login values == user values
+    };
+
+    useEffect(() => {   // Listen to authenticated value
+        if (authenticated) {
+            console.log("Usuário reconhecido!");
+            navigate("/home");
+        } else {
+            console.log("Usuário não autenticado!");
+            //navigate("/form");
+        }
+    }, [authenticated, navigate]);
+
+    return (
+        <div className="pg-form container">
+            <div className="pg-form container-fluid row align-items-center justify-content-center">
+                <div className='col-10 col-md-8 col-lg-6 d-flex justify-content-center'>
+                    <Form onSubmit={handleSubmit}>
+                        <Form.Group className="mt-3" controlId="formTitle">
+                            <Form.Label><h1>LOGIN</h1></Form.Label>
+                        </Form.Group>
+
+                        <Form.Group controlId='formBasicUsername'>
+                            <Form.Label>Usuário</Form.Label>
+                            <Form.Control type='text' name='username' placeholder='Escolha um nome de usuário' value={formValues.username} onChange={handleChange} />
+                        </Form.Group>
+
+
+                        <Form.Group controlId="formBasicEmail">
+                            <Form.Label>E-mail</Form.Label>
+                            <Form.Control type="email" name='email' placeholder="Digite seu e-mail" value={formValues.email} onChange={handleChange} />
+                        </Form.Group>
+
+
+                        <Form.Group controlId='formBasicPassword'>
+                            <Form.Label>Senha</Form.Label>
+                            <Form.Control type='password' name='password' placeholder='Digite uma senha' value={formValues.password} onChange={handleChange} />
+                            <Form.Text className="text-muted">
+                                A senha precisa ter no mínimo 4 caracteres.
+                            </Form.Text>
+                        </Form.Group>
+
+
+                        <Form.Group controlId="formBasicDatePicker">
+                            <Form.Label>Data de nascimento</Form.Label>
+                            <Form.Control type="date" name='birthDate' value={formValues.birthDate} onChange={handleChange} />
+                        </Form.Group>
+
+
+                        <div className='d-flex justify-content-center'>
+                            <Button className='mt-3' variant='primary' type='submit'>
+                                Criar Conta
+                            </Button>
+                        </div>
+                    </Form>
+                </div>
             </div>
-          </div>
-          <div className="col-md-4">
-            <label for="validationCustom02" className="form-label">Sobrenome</label>
-            <input type="text" className="form-control" id="validationCustom02" required/>
-            <div className="valid-feedback">
-              Válido!
-            </div>
-          </div>
-          <div className="col-md-4">
-            <label for="validationCustomUsername" className="form-label">Nome de usuário</label>
-            <div className="input-group has-validation">
-              <span className="input-group-text" id="inputGroupPrepend">@</span>
-              <input type="text" className="form-control" id="validationCustomUsername" aria-describedby="inputGroupPrepend" required/>
-              <div className="invalid-feedback">
-                Por favor, insira um nome de usuário.
-              </div>
-            </div>
-          </div>
-          <div className="col-md-4">
-            <label for="userEmail" className="form-label">Email</label>
-            <input type="email" className="form-control" id="userEmail" required/>
-            <div className="invalid-feedback">
-              Por favor, insira um email válido.
-            </div>
-          </div>
-          <div className="col-md-3">
-            <label for="validationCustom03" className="form-label">Cidade</label>
-            <input type="text" className="form-control" id="validationCustom03" required/>
-            <div className="invalid-feedback">
-              Por favor, insira uma cidade válida.
-            </div>
-          </div>
-          <div className="col-md-3">
-            <label for="validationCustom04" className="form-label">Estado</label>
-            <select className="form-select" id="validationCustom04" required>
-              <option selected disabled value="">Selecione o Estado (UF)</option>
-              <option value="Acre">Acre</option>
-              <option value="Alagoas">Alagoas</option>
-              <option value="Amapá">Amapá</option>
-              <option value="Amazonas">Amazonas</option>
-              <option value="Bahia">Bahia</option>
-              <option value="Ceará">Ceará</option>
-              <option value="Distrito Federal">Distrito Federal</option>
-              <option value="Espírito Santo">Espírito Santo</option>
-              <option value="Goiás">Goiás</option>
-              <option value="Maranhão">Maranhão</option>
-              <option value="Mato Grosso">Mato Grosso</option>
-              <option value="Mato Grosso do Sul">Mato Grosso do Sul</option>
-              <option value="Minas Gerais">Minas Gerais</option>
-              <option value="Pará">Pará</option>
-              <option value="Paraíba">Paraíba</option>
-              <option value="Paraná">Paraná</option>
-              <option value="Pernambuco">Pernambuco</option>
-              <option value="Piauí">Piauí</option>
-              <option value="Rio de Janeiro">Rio de Janeiro</option>
-              <option value="Rio Grande do Sul">Rio Grande do Sul</option>
-              <option value="Rio Grande do Norte">Rio Grande do Norte</option>
-              <option value="Rondônia">Rondônia</option>
-              <option value="Roraima">Roraima</option>
-              <option value="Santa Catarina">Santa Catarina</option>
-              <option value="São Paulo">São Paulo</option>
-              <option value="Sergipe">Sergipe</option>
-              <option value="Tocantins">Tocantins</option>
-            </select>
-            <div className="invalid-feedback">
-              Por favor, insira uma estado.
-            </div>
-          </div>
-          <div className="col-md-2">
-            <label for="id_cep" className="form-label">CEP</label>
-            <input type="text" className="form-control" id="id_cep" maxlength="8" required/>
-            <div className="invalid-feedback">
-              Por favor, insira um CEP válido.
-            </div>
-          </div>
-          <div className="col-12">
-            <div className="form-check">
-              <input className="form-check-input" type="checkbox" value="" id="invalidCheck" required/>
-              <label className="form-check-label" for="invalidCheck">
-                Concordo com os termos e condições de uso do Generify&trade;.
-              </label>
-              <div className="invalid-feedback">
-                Você precisa concordar com os temos e condições de uso antes de continuar.
-              </div>
-            </div>
-          </div>
-          <div className="col-12">
-            <button className="btn btn-primary" type="submit">Login</button>
-          </div>
-        </form>
-      </div>
-      
-    </div>
-	);
+        </div>
+    );
 };
 
 export default Login;
