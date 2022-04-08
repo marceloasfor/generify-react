@@ -49,8 +49,14 @@ footer {
 .pg-form {
   position: relative;
   margin-top: 10%;
-  margin-bottom: 5%;
-  height: 500px;
+  height: 100vh;
+  width: 100%;
+}
+
+.pg-faq {
+  position: relative;
+  margin-top: 10%;
+  height: 100vh;
   width: 100%;
 }
 

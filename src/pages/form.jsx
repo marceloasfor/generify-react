@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button'
 
@@ -10,6 +11,8 @@ const Forms = () => {
     birthDate: ""
   };
 
+  const navigate = useNavigate();
+
   const [formValues, setFormValues] = useState(initialValues);
   const [formErrors, setFormErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
@@ -17,7 +20,7 @@ const Forms = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormValues({ ...formValues, [name]: value });
-    // console.log(formValues);
+    //console.log(formValues);
   };
 
   const handleSubmit = (e) => {
@@ -27,13 +30,12 @@ const Forms = () => {
   };
 
   useEffect(() => {
-    console.log(formErrors);
-    if (Object.keys(formErrors).length === 0 && isSubmit) console.log(formValues);
+    if (Object.keys(formErrors).length === 0 && isSubmit) navigate("/");
   }, [formErrors]);
 
   const validate = (values) => {
     const errors = {};
-    const regex = /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+\.([a-z]+)?$/i;
+    const regex = /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+(\.[a-z]+)?$/i;
     if (!values.username) errors.username = "Usuário é obrigatório!";
     if (!values.email) {
       errors.email = "E-mail é obrigatório!";
