@@ -12,7 +12,7 @@ const Home = () => {
 					<p style={{ fontFamily: '"Sofia", sans-serif', fontSize: '60pt', color: '#ffffff', letterSpacing: '0px', fontWeight: 'normal' }}>Generify</p>
 					<p>Assine agora, ligue o play e esqueça o mundo</p>
 
-					<Link to="/form" activeStyle>
+					<Link to="/form" >
 						<button className="main-button main-button1" style={{ fontWeight: 'normal' }} >ASSINAR</button> </Link>
 
 				</div>

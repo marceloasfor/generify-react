@@ -1,8 +1,21 @@
-import React from "react";
+import Button from 'react-bootstrap/Button';
+import React, { useContext, useEffect } from "react";
+import { Context } from '../context/AuthContext';
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
+
+    const { handleLogout, authenticated } = useContext(Context);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (!authenticated) navigate("/login");
+    }, [authenticated, navigate]);
+
     return (
-        <h1>Hello World!</h1>
+        <div className="pg-form container">
+            <Button onClick={handleLogout}>LOGOUT</Button>
+        </div>
     );
 };
 

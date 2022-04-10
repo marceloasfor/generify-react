@@ -2,17 +2,21 @@ import React, { createContext, useState } from "react";
 import formErrors from '../pages/form';
 
 const Context = createContext();
+const users = [];   // Users array
 
 function AuthProvider({ children }) {   // Component for context validations
 
     const [authenticated, setAuthenticated] = useState(false);  // Boolean if user is athenticated
-    const users = [];   // Users array
 
     function handleLogin(userLogin) {   // Search login values in users array
         const userCheck = users.some(user => user.username === userLogin.username && user.password === userLogin.password);
         if (userCheck) {
             setAuthenticated(true);
         }
+    }
+
+    function handleLogout() {
+        setAuthenticated(false);
     }
 
     function createUser(userDetails) {  // Add form values in users array
@@ -24,7 +28,7 @@ function AuthProvider({ children }) {   // Component for context validations
     }
 
     return (
-        <Context.Provider value={{ authenticated, handleLogin, createUser }}>
+        <Context.Provider value={{ authenticated, handleLogin, createUser, handleLogout }}>
             {children}
         </Context.Provider>
     );

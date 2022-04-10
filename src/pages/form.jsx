@@ -14,7 +14,7 @@ const Forms = () => {
     };
 
     const navigate = useNavigate(); // Hook for routes redirection
-    const { createUser } = useContext(Context); // Authentication validations
+    const { createUser, handleLogin } = useContext(Context); // Authentication validations
 
     const [formValues, setFormValues] = useState(initialValues);    // Manage user values
     const [formErrors, setFormErrors] = useState({});   // Stores errors in validation
@@ -35,7 +35,8 @@ const Forms = () => {
     useEffect(() => {   // Adds user to users array and redirect to Login page if 0 errors found 
         if (Object.keys(formErrors).length === 0 && isSubmit) {
             createUser(formValues);
-            navigate("/login");
+            handleLogin(formValues);
+            navigate("/home"); // ADJUST REDIRECT TO HOME
         }
     }, [formErrors, isSubmit, navigate, createUser, formValues]);
 
@@ -65,7 +66,7 @@ const Forms = () => {
     return (
         <div className="pg-form container">
             <div className="pg-form container-fluid row align-items-center justify-content-center">
-                <div className='col-10 col-md-8 col-lg-6 d-flex justify-content-center'>
+                <div className='col-10 col-md-8 col-lg-6 d-flex justify-content-center border border-light rounded bg-light text-dark shadow-lg'>
                     <Form onSubmit={handleSubmit}>
                         <Form.Group className="mt-3" controlId="formTitle">
                             <Form.Label><h1>Cadastre-se e comece a curtir</h1></Form.Label>
@@ -112,7 +113,7 @@ const Forms = () => {
                         </Form.Group>
 
                         <div className='d-flex justify-content-center'>
-                            <Button className='mt-3' variant='primary' type='submit'>
+                            <Button className='mt-3 mb-3' variant='primary' type='submit'>
                                 Criar Conta
                             </Button>
                         </div>

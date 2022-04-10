@@ -6,14 +6,12 @@ import { Context } from '../context/AuthContext';
 
 const Login = () => {
 
-    const initialValues = { // Login values structure
+    const loginValues = { // Login values structure
         username: "",
-        email: "",
-        password: "",
-        birthDate: ""
+        password: ""
     };
 
-    const [formValues, setFormValues] = useState(initialValues);    // Manage login values
+    const [formValues, setFormValues] = useState(loginValues);    // Manage login values
     const navigate = useNavigate(); // Hook for routes redirection
     const { authenticated, handleLogin } = useContext(Context); // Authentication validations
 
@@ -41,10 +39,10 @@ const Login = () => {
     return (
         <div className="pg-form container">
             <div className="pg-form container-fluid row align-items-center justify-content-center">
-                <div className='col-10 col-md-8 col-lg-6 d-flex justify-content-center'>
+                <div className='col-10 col-md-8 col-lg-6 d-flex justify-content-center border border-light rounded bg-light text-dark shadow-lg'>
                     <Form onSubmit={handleSubmit}>
                         <Form.Group className="mt-3" controlId="formTitle">
-                            <Form.Label><h1>LOGIN</h1></Form.Label>
+                            <Form.Label><h1>Faça o login</h1></Form.Label>
                         </Form.Group>
 
                         <Form.Group controlId='formBasicUsername'>
@@ -52,31 +50,15 @@ const Login = () => {
                             <Form.Control type='text' name='username' placeholder='Escolha um nome de usuário' value={formValues.username} onChange={handleChange} />
                         </Form.Group>
 
-
-                        <Form.Group controlId="formBasicEmail">
-                            <Form.Label>E-mail</Form.Label>
-                            <Form.Control type="email" name='email' placeholder="Digite seu e-mail" value={formValues.email} onChange={handleChange} />
-                        </Form.Group>
-
-
                         <Form.Group controlId='formBasicPassword'>
                             <Form.Label>Senha</Form.Label>
                             <Form.Control type='password' name='password' placeholder='Digite uma senha' value={formValues.password} onChange={handleChange} />
-                            <Form.Text className="text-muted">
-                                A senha precisa ter no mínimo 4 caracteres.
-                            </Form.Text>
-                        </Form.Group>
-
-
-                        <Form.Group controlId="formBasicDatePicker">
-                            <Form.Label>Data de nascimento</Form.Label>
-                            <Form.Control type="date" name='birthDate' value={formValues.birthDate} onChange={handleChange} />
                         </Form.Group>
 
 
                         <div className='d-flex justify-content-center'>
-                            <Button className='mt-3' variant='primary' type='submit'>
-                                Criar Conta
+                            <Button className='mt-3 mb-3' variant='primary' type='submit'>
+                                Login
                             </Button>
                         </div>
                     </Form>

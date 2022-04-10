@@ -9,36 +9,34 @@ const Faq = () => {
       <div className="row">
         <span style={{ textAlign: 'center', paddingBottom: '20px' }}><b className="main-font">GeneriFAQ</b></span>
       </div>
-      <Accordion>
+      <Accordion >
         <Accordion.Item eventKey="0">
           <Accordion.Header>
             Como criar uma conta?
           </Accordion.Header>
           <Accordion.Body>
-            <strong>Sua conta conosco é gratuita!</strong> Basta clicar no link de <Link to="/form" activeStyle>cadastro</Link> e submeter o formulário com todos os campos obrigatórios preenchidos.
+            <strong>Sua conta conosco é gratuita!</strong> Basta clicar no link de <Link to="/form" >cadastro</Link> e submeter o formulário com todos os campos obrigatórios preenchidos.
             Você receberá um email de validação da conta. Após do link de confirmação no email, sua conta estará pronta para uso!
           </Accordion.Body>
         </Accordion.Item>
-      </Accordion>
-      <Accordion>
-        <Accordion.Item eventKey="0">
+
+        <Accordion.Item eventKey="1">
           <Accordion.Header>
             Como encontrar uma música?
           </Accordion.Header>
           <Accordion.Body>
-            <strong>Os maiores artistas estão no nosso player.</strong> Para encontrar suas músicas preferidas, basta fazer o <Link to="/login" activeStyle>login</Link> com sua conta de cadastro,
+            <strong>Os maiores artistas estão no nosso player.</strong> Para encontrar suas músicas preferidas, basta fazer o <Link to="/login" >login</Link> com sua conta de cadastro,
             clicar na barra de busca e então pesquisar por artista, música ou álbum.
           </Accordion.Body>
         </Accordion.Item>
-      </Accordion>
-      <Accordion>
-        <Accordion.Item eventKey="0">
+
+        <Accordion.Item eventKey="2">
           <Accordion.Header>
             Posso remover as propagandas?
           </Accordion.Header>
           <Accordion.Body>
             <strong>Use o Generify&trade; do seu jeito.</strong> Através do nosso plano de assinaturas, você pode criar diversas playlists, remover as propagandas e muito mais.
-            Para acessar as opções de plano, acesse <Link to="/login" activeStyle>Minha Conta</Link> na área logada.
+            Para acessar as opções de plano, acesse <Link to="/login" >Minha Conta</Link> na área logada.
             <table className="table table-hover">
               <thead>
                 <tr>
