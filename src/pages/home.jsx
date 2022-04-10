@@ -15,6 +15,7 @@ const Home = () => {
     return (
         <div className="pg-form container">
             <Button onClick={handleLogout}>LOGOUT</Button>
+            <Button onClick={() => navigate("/playlists")}>Playlists</Button>
         </div>
     );
 };

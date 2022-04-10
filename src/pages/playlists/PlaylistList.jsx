@@ -1,27 +1,33 @@
 import playlistsMock from "./playlistsMock";
+import { Link } from 'react-router-dom';
 import React from "react";
+import { Col, Container, Row } from "react-bootstrap";
 
 const PlaylistList = () => {
 
     const dados = playlistsMock.map
         ((p) => {
             return (
-                <Link to={`/playlists/${p.id}`}>
-                    <div className="card" style={{ width: '400px' }}>
-                        <img className="card-img-top" src={p.cover} alt="Card image" />
-                        <div className="card-body">
-                            <h4 className="card-title">{p.name}</h4>
-                        </div>
-                    </div>
-                </Link>
+                <Col className="flex-fill mb-3" key={p.id}>
+                    <Link to={`/playlists/${p.id}`}>
+                        <img className="card-img-top" src={p.cover} alt="" />
+                    </Link>
+                </Col>
 
             )
         })
 
     return (
-        <ul>
-            {dados}
-        </ul>
+        <div className="pg-faq container" >
+            <div className="row">
+                <span style={{ textAlign: 'center', paddingBottom: '20px' }}><b className="main-font">Generi - Lists</b></span>
+            </div>
+            <Container>
+                <Row md={4}>
+                    {dados}
+                </Row>
+            </Container>
+        </div>
     );
 }
 

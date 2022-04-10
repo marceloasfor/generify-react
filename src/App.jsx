@@ -10,6 +10,7 @@ import Form from './pages/form';
 import Login from './pages/login';
 import Home from './pages/home';
 import PlaylistDetail from './pages/playlists/PlaylistDetail';
+import PlaylistList from './pages/playlists/PlaylistList';
 import { AuthProvider } from './context/AuthContext';	// Passes context to children
 
 
@@ -26,6 +27,7 @@ function App() {
 					<Route path='/form' element={<Form />} />
 					<Route path='/login' element={<Login />} />
 					<Route path='/home' element={<Home />} />
+					<Route path='/playlists' element={<PlaylistList />} />
 					<Route path='/playlists/:id' element={<PlaylistDetail />} />
 				</Routes>
 				<Footer />
