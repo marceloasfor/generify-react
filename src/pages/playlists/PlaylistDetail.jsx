@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Col, Container, Row, Table } from "react-bootstrap";
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import playlistsMock from './playlistsMock';
+import Player from "../../components/Player/Player";
 
 const PlaylistDetail = () => {
     const { id } = useParams();
@@ -12,13 +13,27 @@ const PlaylistDetail = () => {
             return (
                 <tr key={p.id}>
                     <td>
-                        <Link to="">
+                        <div>
                             {p.artist} - {p.name}
-                        </Link>
+                        </div>
                     </td>
                 </tr>
             )
-        })
+        });
+
+    const [songs] = useState(selectedPlaylist.songs);
+    const [currentSongIndex, setCurrentSongIndex] = useState(0);
+    const [nextSongIndex, setNextSongIndex] = useState(currentSongIndex + 1);
+
+    useEffect(() => {
+        setNextSongIndex(() => {
+            if (currentSongIndex + 1 > songs.length - 1) {
+                return 0;
+            } else {
+                return currentSongIndex + 1;
+            }
+        });
+    }, [currentSongIndex, songs]);
 
     return (
         <div className="pg-faq container" >
@@ -26,6 +41,7 @@ const PlaylistDetail = () => {
 
                 <span style={{ textAlign: 'center', paddingBottom: '20px' }}><b className="main-font">Generi - {selectedPlaylist.name}</b></span>
                 <p className="text-center text-muted">{selectedPlaylist.about}</p>
+                <Player currentSongIndex={currentSongIndex} setCurrentSongIndex={setCurrentSongIndex} nextSongIndex={nextSongIndex} songs={songs} />
                 <Container>
                     <Row md={2} className="justify-content-md-center">
                         <Col className="justify-content-md-center">
@@ -33,7 +49,7 @@ const PlaylistDetail = () => {
 
                         </Col>
                         <Col>
-                            <Table borderless hover variant="dark" size="lg">
+                            <Table borderless hover size="lg" style={{ borderRadius: "10px", backgroundColor: "#b27cde", color: "#491d6c", fontWeight: "bold" }}>
                                 <tbody>
                                     {renderSongs}
                                 </tbody>

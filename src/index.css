@@ -153,3 +153,54 @@ li {
   font-weight: bold;
   letter-spacing: 1.2px;
 }
+
+.player {
+  display: block;
+  background-color: #e0aaff;
+  margin: 0px auto;
+  padding: 5px;
+  border-radius: 16px;
+  /* box-shadow: inset -6px -6px 12px rgba(0, 0, 0, 0.8), inset 6px 6px 12px rgba(255, 255, 255, 0.4); */
+}
+
+.player-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+.play-btn {
+  display: flex;
+  margin: 0 30px;
+  padding: 20px;
+  border-radius: 50%;
+  border: none;
+  outline: none;
+  background-color: #9d4edd;
+  color: #FFF;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.pause-btn {
+  display: flex;
+  margin: 0 30px;
+  padding: 20px;
+  border-radius: 50%;
+  border: none;
+  outline: none;
+  background-color: #9d4edd;
+  color: #FFF;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.skip-btn {
+  background: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  color: #888;
+  font-style: 18px;
+}
