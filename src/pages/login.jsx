@@ -12,6 +12,7 @@ const Login = () => {
     };
 
     const [formValues, setFormValues] = useState(loginValues);    // Manage login values
+    const [loginErrors, setLoginErrors] = useState({});   // Stores errors in validation
     const navigate = useNavigate(); // Hook for routes redirection
     const { authenticated, handleLogin } = useContext(Context); // Authentication validations
 
@@ -23,6 +24,7 @@ const Login = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        setLoginErrors(validate(formValues));    // Validation
         handleLogin(formValues);    // Check if login values == user values
     };
 
@@ -34,7 +36,15 @@ const Login = () => {
             console.log("Usuário não autenticado!");
             //navigate("/form");
         }
-    }, [authenticated, navigate]);
+    }, [authenticated, navigate, loginErrors]);
+
+    const validate = (values) => {  // Inputs validations
+        const errors = {};
+        if (!values.username) errors.username = "Usuário é obrigatório!";
+        if (!values.password) errors.password = "Senha é obrigatória!";
+
+        return errors;
+    };
 
     return (
         <div className="pg-form container">
@@ -48,13 +58,18 @@ const Login = () => {
                         <Form.Group controlId='formBasicUsername'>
                             <Form.Label>Usuário</Form.Label>
                             <Form.Control type='text' name='username' placeholder='Escolha um nome de usuário' value={formValues.username} onChange={handleChange} />
+                            <Form.Text className="text-muted">
+                                {loginErrors.username}
+                            </Form.Text>
                         </Form.Group>
 
                         <Form.Group controlId='formBasicPassword'>
                             <Form.Label>Senha</Form.Label>
                             <Form.Control type='password' name='password' placeholder='Digite uma senha' value={formValues.password} onChange={handleChange} />
+                            <Form.Text className="text-muted">
+                                {loginErrors.password}
+                            </Form.Text>
                         </Form.Group>
-
 
                         <div className='d-flex justify-content-center'>
                             <Button className='mt-3 mb-3' variant='primary' type='submit'>

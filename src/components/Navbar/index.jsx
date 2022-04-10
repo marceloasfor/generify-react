@@ -1,8 +1,20 @@
-import React from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Nav, NavLink, LogoLink } from "./NavbarElements";
 import logo from '../../images/notas-musicais.png'
+import Toast from 'react-bootstrap/Toast'
+import { Context } from '../../context/AuthContext';
 
 const Navbar = () => {
+
+    const [showAlert, setShowAlert] = useState(false);
+    const { authenticated, alertMsg } = useContext(Context); // Authentication validations
+
+    useEffect(() => {
+        if (authenticated) {
+            setShowAlert(true);
+        }
+    }, [authenticated, setShowAlert]);
+
     return (
         <Nav className="navbar navbar-expand-sm navbar-dark fixed-top">
             <div className="container-fluid">
@@ -11,6 +23,9 @@ const Navbar = () => {
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
                     <span className="navbar-toggler-icon"></span>
                 </button>
+                <Toast className="loginAlert" onClose={() => setShowAlert(false)} variant="success" show={showAlert} delay={2000} autohide>
+                    <Toast.Body>{alertMsg}</Toast.Body>
+                </Toast>
                 <div className="collapse navbar-collapse" id="collapsibleNavbar" >
                     <ul className="navbar-nav ms-auto"  >
                         <li className="nav-item">

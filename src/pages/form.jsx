@@ -14,7 +14,7 @@ const Forms = () => {
     };
 
     const navigate = useNavigate(); // Hook for routes redirection
-    const { createUser, handleLogin } = useContext(Context); // Authentication validations
+    const { createUser } = useContext(Context); // Authentication validations
 
     const [formValues, setFormValues] = useState(initialValues);    // Manage user values
     const [formErrors, setFormErrors] = useState({});   // Stores errors in validation
@@ -35,8 +35,7 @@ const Forms = () => {
     useEffect(() => {   // Adds user to users array and redirect to Login page if 0 errors found 
         if (Object.keys(formErrors).length === 0 && isSubmit) {
             createUser(formValues);
-            handleLogin(formValues);
-            navigate("/home"); // ADJUST REDIRECT TO HOME
+            navigate("/home");
         }
     }, [formErrors, isSubmit, navigate, createUser, formValues]);
 
