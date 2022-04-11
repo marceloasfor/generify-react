@@ -3,11 +3,14 @@ import { Nav, NavLink, LogoLink } from "./NavbarElements";
 import logo from '../../images/notas-musicais.png'
 import Toast from 'react-bootstrap/Toast'
 import { Context } from '../../context/AuthContext';
+import Button from 'react-bootstrap/Button';
 
 const Navbar = () => {
 
+
+
     const [showAlert, setShowAlert] = useState(false);
-    const { authenticated, alertMsg } = useContext(Context); // Authentication validations
+    const { authenticated, alertMsg, handleLogout } = useContext(Context); // Authentication validations
 
     useEffect(() => {
         if (authenticated) {
@@ -26,7 +29,18 @@ const Navbar = () => {
                 <Toast className="loginAlert" onClose={() => setShowAlert(false)} variant="success" show={showAlert} delay={2000} autohide>
                     <Toast.Body>{alertMsg}</Toast.Body>
                 </Toast>
-                <div className="collapse navbar-collapse" id="collapsibleNavbar" >
+                {authenticated ? <div className="collapse navbar-collapse" id="collapsibleNavbar" >
+                    <ul className="navbar-nav ms-auto"  >
+                        <li className="nav-item">
+                            <NavLink className="nav-link" to="/playlists" >
+                                Playlists
+                            </NavLink>
+                        </li>
+                        <li className="nav-item">
+                            <Button variant="clear" className="text-white" onClick={handleLogout}>Logout</Button>
+                        </li>
+                    </ul>
+                </div> : <div className="collapse navbar-collapse" id="collapsibleNavbar" >
                     <ul className="navbar-nav ms-auto"  >
                         <li className="nav-item">
                             <NavLink className="nav-link" to="/" >
@@ -49,7 +63,7 @@ const Navbar = () => {
                             </NavLink>
                         </li>
                     </ul>
-                </div>
+                </div>}
             </div>
         </Nav>
     );

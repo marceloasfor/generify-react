@@ -1,29 +1,40 @@
-import React, { useState, useEffect } from "react";
-import { Col, Container, Row, Table } from "react-bootstrap";
+import React, { useState, useEffect, useContext } from "react";
+import { Button, Col, Container, Row, Table } from "react-bootstrap";
 import { useParams } from 'react-router-dom';
 import playlistsMock from './playlistsMock';
 import Player from "../../components/Player/Player";
+import { Context } from '../../context/AuthContext';
+import { useNavigate } from "react-router-dom";
+
 
 const PlaylistDetail = () => {
     const { id } = useParams();
 
     const selectedPlaylist = playlistsMock[id - 1];
+
+    const [songs] = useState(selectedPlaylist.songs);
+    const [currentSongIndex, setCurrentSongIndex] = useState(0);
+    const [nextSongIndex, setNextSongIndex] = useState(currentSongIndex + 1);
+
+    const { authenticated } = useContext(Context);
+    const navigate = useNavigate();
+    useEffect(() => {
+        if (!authenticated) navigate("/login");
+    }, [authenticated, navigate]);
+
     const renderSongs = selectedPlaylist.songs.map
         ((p) => {
             return (
                 <tr key={p.id}>
                     <td>
-                        <div>
+                        <Button variant="clear" className="w-100" onClick={() => { setCurrentSongIndex(selectedPlaylist.songs.indexOf(p)) }}>
                             {p.artist} - {p.name}
-                        </div>
+                        </Button>
                     </td>
                 </tr>
             )
         });
 
-    const [songs] = useState(selectedPlaylist.songs);
-    const [currentSongIndex, setCurrentSongIndex] = useState(0);
-    const [nextSongIndex, setNextSongIndex] = useState(currentSongIndex + 1);
 
     useEffect(() => {
         setNextSongIndex(() => {
@@ -41,7 +52,9 @@ const PlaylistDetail = () => {
 
                 <span style={{ textAlign: 'center', paddingBottom: '20px' }}><b className="main-font">Generi - {selectedPlaylist.name}</b></span>
                 <p className="text-center text-muted">{selectedPlaylist.about}</p>
-                <Player currentSongIndex={currentSongIndex} setCurrentSongIndex={setCurrentSongIndex} nextSongIndex={nextSongIndex} songs={songs} />
+                <p className="text-center font-weight-bold">Tocando: {songs[currentSongIndex].artist} - {songs[currentSongIndex].name}</p>
+                <Player songs={songs} currentSongIndex={currentSongIndex} setCurrentSongIndex={setCurrentSongIndex} nextSongIndex={nextSongIndex} />
+
                 <Container>
                     <Row md={2} className="justify-content-md-center">
                         <Col className="justify-content-md-center">

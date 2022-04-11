@@ -1,9 +1,18 @@
 import playlistsMock from "./playlistsMock";
 import { Link } from 'react-router-dom';
-import React from "react";
+import React, { useEffect, useContext } from "react";
 import { Col, Container, Row } from "react-bootstrap";
+import { Context } from '../../context/AuthContext';
+import { useNavigate } from "react-router-dom";
 
 const PlaylistList = () => {
+
+    const { authenticated } = useContext(Context);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (!authenticated) navigate("/login");
+    }, [authenticated, navigate]);
 
     const dados = playlistsMock.map
         ((p) => {

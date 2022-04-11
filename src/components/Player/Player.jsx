@@ -1,17 +1,19 @@
 import React, { useRef, useState, useEffect } from "react";
 import PlayerControls from "./PlayerControls";
+import ReactAudioPlayer from 'react-audio-player';
+
 
 const Player = (props) => {
 
-    const audioEl = useRef(null);
+    const audioElement = useRef(null);
     const [isPlaying, setIsPlaying] = useState(false);
 
+
     useEffect(() => {
-        console.log(props.songs[props.currentSongIndex])
         if (isPlaying) {
-            audioEl.current.play();
+            audioElement.current.audioEl.current.play();
         } else {
-            audioEl.current.pause();
+            audioElement.current.audioEl.current.pause();
         }
     });
 
@@ -41,7 +43,7 @@ const Player = (props) => {
 
     return (
         <div className="player">
-            <audio src={props.songs[props.currentSongIndex].file} ref={audioEl}></audio>
+            <ReactAudioPlayer src={props.songs[props.currentSongIndex].file} ref={audioElement} />
             <PlayerControls isPlaying={isPlaying} setIsPlaying={setIsPlaying} SkipSong={SkipSong} />
         </div>
     );

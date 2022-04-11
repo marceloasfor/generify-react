@@ -35,7 +35,7 @@ const Forms = () => {
     useEffect(() => {   // Adds user to users array and redirect to Login page if 0 errors found 
         if (Object.keys(formErrors).length === 0 && isSubmit) {
             createUser(formValues);
-            navigate("/home");
+            navigate("/playlists");
         }
     }, [formErrors, isSubmit, navigate, createUser, formValues]);
 

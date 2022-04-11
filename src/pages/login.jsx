@@ -31,7 +31,7 @@ const Login = () => {
     useEffect(() => {   // Listen to authenticated value
         if (authenticated) {
             console.log("Usuário reconhecido!");
-            navigate("/home");
+            navigate("/playlists");
         } else {
             console.log("Usuário não autenticado!");
             //navigate("/form");
