@@ -15,6 +15,7 @@ function AuthProvider({ children }) {   // Component for context validations
             setAuthenticated(true);
             setAlertMsg(`Login realizado, bem-vindo ${userLogin.username}!`);
         }
+        return authenticated;
     }
 
     function handleLogout() {

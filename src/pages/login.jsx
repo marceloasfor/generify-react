@@ -13,6 +13,7 @@ const Login = () => {
 
     const [formValues, setFormValues] = useState(loginValues);    // Manage login values
     const [loginErrors, setLoginErrors] = useState({});   // Stores errors in validation
+    const [hasMatch, setHasMatch] = useState(false);
     const navigate = useNavigate(); // Hook for routes redirection
     const { authenticated, handleLogin } = useContext(Context); // Authentication validations
 
@@ -24,8 +25,8 @@ const Login = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        setHasMatch(handleLogin(formValues));    // Check if login values == user values
         setLoginErrors(validate(formValues));    // Validation
-        handleLogin(formValues);    // Check if login values == user values
     };
 
     useEffect(() => {   // Listen to authenticated value
@@ -40,10 +41,17 @@ const Login = () => {
 
     const validate = (values) => {  // Inputs validations
         const errors = {};
-        if (!values.username) errors.username = "Usuário é obrigatório!";
-        if (!values.password) errors.password = "Senha é obrigatória!";
-
-        return errors;
+        if (!values.username || !values.password) {
+            if (!values.username) errors.username = "Usuário é obrigatório!";
+            if (!values.password) errors.password = "Senha é obrigatória!";
+            return errors;
+        }
+        console.log(hasMatch)
+        if (hasMatch === false) {
+            errors.username = "Usuário não encontrado!";
+            errors.password = "Senha incorreta!";
+            return errors;
+        }
     };
 
     return (
