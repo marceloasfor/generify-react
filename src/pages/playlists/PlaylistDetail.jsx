@@ -1,64 +1,86 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Button, Col, Container, Row, Table } from "react-bootstrap";
 import { useParams } from 'react-router-dom';
-import playlistsMock from './playlistsMock';
 import Player from "../../components/Player/Player";
 import { Context } from '../../context/AuthContext';
 import { useNavigate } from "react-router-dom";
 
+const axios = require('axios').default;
 
 const PlaylistDetail = () => {
     const { id } = useParams();
 
-    const selectedPlaylist = playlistsMock[id - 1];
+    const playlistFormat = { // Playlist values structure
+        id: "",
+        name: "",
+        cover: "",
+        about: "",
+        songs: [
+            {
+                id: "",
+                artist: "",
+                name: "",
+                file: ""
+            }
+        ]
+    };
 
-    const [songs] = useState(selectedPlaylist.songs);
+    const [playlist, setPlaylist] = useState(playlistFormat);
     const [currentSongIndex, setCurrentSongIndex] = useState(0);
     const [nextSongIndex, setNextSongIndex] = useState(currentSongIndex + 1);
 
     const { authenticated } = useContext(Context);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        axios.get(`http://localhost:8080/PlaylistMock/${id}`)
+            .then(
+                (response) => {
+                    setPlaylist(response.data);
+                }
+            )
+    }, [id]);
+
     useEffect(() => {
         if (!authenticated) navigate("/login");
     }, [authenticated, navigate]);
 
-    const renderSongs = selectedPlaylist.songs.map
-        ((p) => {
-            return (
-                <tr key={p.id}>
-                    <td>
-                        <Button variant="clear" className="w-100" onClick={() => { setCurrentSongIndex(selectedPlaylist.songs.indexOf(p)) }}>
-                            {p.artist} - {p.name}
-                        </Button>
-                    </td>
-                </tr>
-            )
-        });
+    const renderSongs = playlist.songs.map((p) => {
+        return (
+            <tr key={p.id}>
+                <td>
+                    <Button variant="clear" className="w-100" onClick={() => { setCurrentSongIndex(playlist.songs.indexOf(p)) }}>
+                        {p.artist} - {p.name}
+                    </Button>
+                </td>
+            </tr>
+        )
+    });
 
 
     useEffect(() => {
         setNextSongIndex(() => {
-            if (currentSongIndex + 1 > songs.length - 1) {
+            if (currentSongIndex + 1 > playlist.songs.length - 1) {
                 return 0;
             } else {
                 return currentSongIndex + 1;
             }
         });
-    }, [currentSongIndex, songs]);
+    }, [currentSongIndex, playlist]);
 
     return (
         <div className="pg-faq container" >
             <div className="row" >
 
-                <span style={{ textAlign: 'center', paddingBottom: '20px' }}><b className="main-font">Generi - {selectedPlaylist.name}</b></span>
-                <p className="text-center text-muted">{selectedPlaylist.about}</p>
-                <p className="text-center font-weight-bold">Tocando: {songs[currentSongIndex].artist} - {songs[currentSongIndex].name}</p>
-                <Player songs={songs} currentSongIndex={currentSongIndex} setCurrentSongIndex={setCurrentSongIndex} nextSongIndex={nextSongIndex} />
+                <span style={{ textAlign: 'center', paddingBottom: '20px' }}><b className="main-font">Generi - {playlist.name}</b></span>
+                <p className="text-center text-muted">{playlist.about}</p>
+                <p className="text-center font-weight-bold">Tocando: {playlist.songs[currentSongIndex].artist} - {playlist.songs[currentSongIndex].name}</p>
+                <Player songs={playlist.songs} currentSongIndex={currentSongIndex} setCurrentSongIndex={setCurrentSongIndex} nextSongIndex={nextSongIndex} />
 
                 <Container>
                     <Row md={2} className="justify-content-md-center">
                         <Col className="justify-content-md-center">
-                            <img className="w-75" src={`../${selectedPlaylist.cover} `} alt="" />
+                            <img className="w-75" src={`../${playlist.cover} `} alt="" />
 
                         </Col>
                         <Col>
