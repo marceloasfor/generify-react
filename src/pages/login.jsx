@@ -31,10 +31,8 @@ const Login = () => {
 
     useEffect(() => {   // Listen to authenticated value
         if (authenticated) {
-            console.log("Usuário reconhecido!");
             navigate("/playlists");
         } else {
-            console.log("Usuário não autenticado!");
             //navigate("/form");
         }
     }, [authenticated, navigate, loginErrors]);
@@ -46,7 +44,6 @@ const Login = () => {
             if (!values.password) errors.password = "Senha é obrigatória!";
             return errors;
         }
-        console.log(hasMatch)
         if (hasMatch === false) {
             errors.username = "Usuário não encontrado!";
             errors.password = "Senha incorreta!";

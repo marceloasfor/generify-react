@@ -307,11 +307,12 @@
     ],
     "users": [
         {
-            "id": 1,
-            "name": "John Doe",
-            "email": "john.doe@gmail.com",
-            "birthDate": "01/01/2000",
-            "createdAt": "20/04/2022"
+            "username": "tiago",
+            "email": "tiago@gmail.com",
+            "password": "12345",
+            "birthDate": "1997-04-24",
+            "createdAt": "2022-04-28T21:22:54.062Z",
+            "id": 1
         }
     ]
 }

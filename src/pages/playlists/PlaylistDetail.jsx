@@ -33,13 +33,15 @@ const PlaylistDetail = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get(`http://localhost:8080/PlaylistMock/${id}`)
-            .then(
-                (response) => {
-                    setPlaylist(response.data);
-                }
-            )
-    }, [id]);
+        if (authenticated) {
+            axios.get(`http://localhost:8080/PlaylistMock/${id}`)
+                .then(
+                    (response) => {
+                        setPlaylist(response.data);
+                    }
+                )
+        }
+    }, [id, authenticated]);
 
     useEffect(() => {
         if (!authenticated) navigate("/login");

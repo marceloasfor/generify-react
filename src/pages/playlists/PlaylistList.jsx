@@ -17,13 +17,15 @@ const PlaylistList = () => {
     }, [authenticated, navigate]);
 
     useEffect(() => {
-        axios.get("http://localhost:8080/PlaylistMock")
-            .then(
-                (response) => {
-                    setPlaylists(response.data);
-                }
-            )
-    }, []);
+        if (authenticated) {
+            axios.get("http://localhost:8080/PlaylistMock")
+                .then(
+                    (response) => {
+                        setPlaylists(response.data);
+                    }
+                )
+        }
+    }, [authenticated]);
 
     const dados = playlists.map
         ((p) => {
