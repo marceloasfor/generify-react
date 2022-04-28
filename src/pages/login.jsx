@@ -12,10 +12,8 @@ const Login = () => {
     };
 
     const [formValues, setFormValues] = useState(loginValues);    // Manage login values
-    const [loginErrors, setLoginErrors] = useState({});   // Stores errors in validation
-    const [hasMatch, setHasMatch] = useState(false);
     const navigate = useNavigate(); // Hook for routes redirection
-    const { authenticated, handleLogin } = useContext(Context); // Authentication validations
+    const { authenticated, handleLogin, loginErrors } = useContext(Context); // Authentication validations
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -25,31 +23,14 @@ const Login = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setHasMatch(handleLogin(formValues));    // Check if login values == user values
-        setLoginErrors(validate(formValues));    // Validation
+        handleLogin(formValues);    // Check if login values == user values and Validation
     };
 
     useEffect(() => {   // Listen to authenticated value
         if (authenticated) {
             navigate("/playlists");
-        } else {
-            //navigate("/form");
         }
     }, [authenticated, navigate, loginErrors]);
-
-    const validate = (values) => {  // Inputs validations
-        const errors = {};
-        if (!values.username || !values.password) {
-            if (!values.username) errors.username = "Usuário é obrigatório!";
-            if (!values.password) errors.password = "Senha é obrigatória!";
-            return errors;
-        }
-        if (hasMatch === false) {
-            errors.username = "Usuário não encontrado!";
-            errors.password = "Senha incorreta!";
-            return errors;
-        }
-    };
 
     return (
         <div className="pg-form container">
@@ -64,7 +45,7 @@ const Login = () => {
                             <Form.Label>Usuário</Form.Label>
                             <Form.Control type='text' name='username' placeholder='Escolha um nome de usuário' value={formValues.username} onChange={handleChange} />
                             <Form.Text className="text-muted">
-                                {loginErrors.username}
+                                {loginErrors && loginErrors.username}
                             </Form.Text>
                         </Form.Group>
 
@@ -72,7 +53,7 @@ const Login = () => {
                             <Form.Label>Senha</Form.Label>
                             <Form.Control type='password' name='password' placeholder='Digite uma senha' value={formValues.password} onChange={handleChange} />
                             <Form.Text className="text-muted">
-                                {loginErrors.password}
+                                {loginErrors && loginErrors.password}
                             </Form.Text>
                         </Form.Group>
 

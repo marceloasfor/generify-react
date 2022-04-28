@@ -34,7 +34,7 @@ const PlaylistDetail = () => {
 
     useEffect(() => {
         if (authenticated) {
-            axios.get(`http://localhost:8080/PlaylistMock/${id}`)
+            axios.get(`http://localhost:8080/playlists/${id}`)
                 .then(
                     (response) => {
                         setPlaylist(response.data);
