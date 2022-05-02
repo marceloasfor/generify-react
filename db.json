@@ -321,6 +321,22 @@
       "birthDate": "1997-04-24",
       "createdAt": "2022-04-29T00:24:16.968Z",
       "id": 2
+    },
+    {
+      "username": "teste",
+      "email": "teste@gmail.com",
+      "password": "12345",
+      "birthDate": "1997-04-24",
+      "createdAt": "2022-05-02T10:39:45.315Z",
+      "id": 3
+    },
+    {
+      "username": "lucas2",
+      "email": "lucas2@gmail.com",
+      "password": "54321",
+      "birthDate": "1898-04-24",
+      "createdAt": "2022-05-02T10:42:29.596Z",
+      "id": 4
     }
   ]
 }

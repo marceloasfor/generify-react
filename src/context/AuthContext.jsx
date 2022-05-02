@@ -1,5 +1,4 @@
 import React, { createContext, useState } from "react";
-import formErrors from '../pages/form';
 
 const axios = require('axios').default;
 
@@ -10,10 +9,12 @@ function AuthProvider({ children }) {   // Component for context validations
     const [authenticated, setAuthenticated] = useState(false);  // Boolean if user is athenticated
     const [alertMsg, setAlertMsg] = useState("Bem-vindo!"); // Alert pop-up message in navbar
     const [loginErrors, setLoginErrors] = useState({});   // Stores errors in validation
+    const [createErrors, setCreateErrors] = useState({});   // Stores errors in validation
+    const [updateErrors, setUpdateErrors] = useState({});
     const [currentUser, setCurrentUser] = useState();
 
 
-    const validate = (values, valid) => {  // Inputs validations
+    const validateLogin = (values, valid) => {  // Inputs validations
         const errors = {};
         if (!values.username || !values.password) {
             if (!values.username) errors.username = "Usuário é obrigatório!";
@@ -41,7 +42,7 @@ function AuthProvider({ children }) {   // Component for context validations
             setAlertMsg(`Login realizado, bem-vindo ${userLogin.username}!`);
             setCurrentUser(users.find((user) => (user.username === userLogin.username && user.password === userLogin.password)))
         }
-        setLoginErrors(validate(userLogin, userCheck));
+        setLoginErrors(validateLogin(userLogin, userCheck));
     }
 
     function handleLogout() {
@@ -49,8 +50,31 @@ function AuthProvider({ children }) {   // Component for context validations
         setCurrentUser({});
     }
 
-    function createUser({ username, email, password, birthDate }) {  // Add form values in users array
-        if (Object.keys(formErrors).length === 0) {
+    const validateCreate = (values) => {  // Inputs validations
+        const errors = {};
+        const regex = /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+(\.[a-z]+)?$/i;
+        if (!values.username) errors.username = "Usuário é obrigatório!";
+        if (!values.email) {
+            errors.email = "E-mail é obrigatório!";
+        } else if (!regex.test(values.email)) {
+            errors.email = "Esse não é um formato de e-mail válido!";
+        }
+        if (!values.password) {
+            errors.password = "Senha é obrigatória!";
+        } else if (values.password.length < 4) {
+            errors.password = "a senha deve ter mais de 4 caracteres";
+        }
+        if (values.password !== values.passwordCheck) {
+            errors.password = "O valor não coincide com a senha informada!";
+            errors.passwordCheck = "O valor não coincide com a senha informada!"
+        }
+        if (!values.birthDate) errors.birthDate = "Data de nascimento é obrigatório!";
+        return errors;
+    };
+
+    function createUser(userValues) {  // Add form values in users array
+        if (Object.keys(createErrors).length === 0) {
+            const { username, email, password, birthDate } = userValues
             const user = {
                 username,
                 email,
@@ -63,12 +87,24 @@ function AuthProvider({ children }) {   // Component for context validations
             // console.log(users);
             axios.post(`http://localhost:8080/users`, user);
             handleLogin(user);
-            setAlertMsg(`Usuário criado, bem-vindo ${user.username}!`);
         }
+        setCreateErrors({})
+    }
+
+    function checkCreateErrors(userValues) {
+        setCreateErrors(validateCreate(userValues))
+    }
+
+    function updateUser({ username, email, birthDate }) {
+        setAlertMsg('Usuário atualizado com sucesso!');
+    }
+
+    function updatePassword({ password, passwordCheck }) {
+        setAlertMsg('Senha atualizada com sucesso!');
     }
 
     return (
-        <Context.Provider value={{ authenticated, handleLogin, createUser, handleLogout, alertMsg, loginErrors, currentUser }}>
+        <Context.Provider value={{ authenticated, handleLogin, createUser, handleLogout, alertMsg, loginErrors, createErrors, checkCreateErrors, currentUser, updateUser, updatePassword }}>
             {children}
         </Context.Provider>
     );

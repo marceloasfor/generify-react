@@ -14,10 +14,8 @@ const Forms = () => {
     };
 
     const navigate = useNavigate(); // Hook for routes redirection
-    const { createUser } = useContext(Context); // Authentication validations
-
+    const { createUser, createErrors, checkCreateErrors } = useContext(Context); // Authentication validations
     const [formValues, setFormValues] = useState(initialValues);    // Manage user values
-    const [formErrors, setFormErrors] = useState({});   // Stores errors in validation
     const [isSubmit, setIsSubmit] = useState(false);    // Handle if form was submitted for useEffect
 
     const handleChange = (e) => {
@@ -28,39 +26,16 @@ const Forms = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setFormErrors(validate(formValues));    // Validation
+        checkCreateErrors(formValues);    // Validation
         setIsSubmit(true);
     };
 
-    useEffect(() => {   // Adds user to users array and redirect to Login page if 0 errors found 
-        if (Object.keys(formErrors).length === 0 && isSubmit) {
-            createUser(formValues);
+    useEffect(() => {   // Adds user to users array and redirect to Playlists page if 0 errors found 
+        if (Object.keys(createErrors).length === 0 && isSubmit) {
+            createUser(formValues)
             navigate("/playlists");
         }
-    }, [formErrors, isSubmit, navigate, createUser, formValues]);
-
-    const validate = (values) => {  // Inputs validations
-        const errors = {};
-        const regex = /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+(\.[a-z]+)?$/i;
-        if (!values.username) errors.username = "Usuário é obrigatório!";
-        if (!values.email) {
-            errors.email = "E-mail é obrigatório!";
-        } else if (!regex.test(values.email)) {
-            errors.email = "Esse não é um formato de e-mail válido!";
-        }
-        if (!values.password) {
-            errors.password = "Senha é obrigatória!";
-        } else if (values.password.length < 4) {
-            errors.password = "a senha deve ter mais de 4 caracteres";
-        }
-        if (values.password !== values.passwordCheck) {
-            errors.password = "O valor não coincide com a senha informada!";
-            errors.passwordCheck = "O valor não coincide com a senha informada!"
-        }
-        if (!values.birthDate) errors.birthDate = "Data de nascimento é obrigatório!";
-
-        return errors;
-    };
+    }, [createErrors, isSubmit, navigate, createUser, formValues]);
 
     return (
         <div className="pg-form container">
@@ -75,7 +50,7 @@ const Forms = () => {
                             <Form.Label>Usuário</Form.Label>
                             <Form.Control type='text' name='username' placeholder='Escolha um nome de usuário' value={formValues.username} onChange={handleChange} />
                             <Form.Text className="text-muted">
-                                {formErrors.username}
+                                {createErrors.username}
                             </Form.Text>
                         </Form.Group>
 
@@ -83,7 +58,7 @@ const Forms = () => {
                             <Form.Label>E-mail</Form.Label>
                             <Form.Control type="email" name='email' placeholder="Digite seu e-mail" value={formValues.email} onChange={handleChange} />
                             <Form.Text className="text-muted">
-                                {formErrors.email}
+                                {createErrors.email}
                             </Form.Text>
                         </Form.Group>
 
@@ -91,7 +66,7 @@ const Forms = () => {
                             <Form.Label>Senha</Form.Label>
                             <Form.Control type='password' name='password' placeholder='Digite uma senha' value={formValues.password} onChange={handleChange} />
                             <Form.Text className="text-muted">
-                                {formErrors.password}
+                                {createErrors.password}
                             </Form.Text>
                         </Form.Group>
 
@@ -99,7 +74,7 @@ const Forms = () => {
                             <Form.Label>Confirme a senha</Form.Label>
                             <Form.Control type='password' name='passwordCheck' placeholder='Repita a senha' value={formValues.passwordCheck} onChange={handleChange} />
                             <Form.Text className="text-muted">
-                                {formErrors.passwordCheck}
+                                {createErrors.passwordCheck}
                             </Form.Text>
                         </Form.Group>
 
@@ -107,7 +82,7 @@ const Forms = () => {
                             <Form.Label>Data de nascimento</Form.Label>
                             <Form.Control type="date" name='birthDate' value={formValues.birthDate} onChange={handleChange} />
                             <Form.Text className="text-muted">
-                                {formErrors.birthDate}
+                                {createErrors.birthDate}
                             </Form.Text>
                         </Form.Group>
 
