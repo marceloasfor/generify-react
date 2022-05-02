@@ -48,6 +48,7 @@ function AuthProvider({ children }) {   // Component for context validations
     function handleLogout() {
         setAuthenticated(false);
         setCurrentUser({});
+        setAlertMsg("Bem-vindo!");
     }
 
     const validateCreate = (values) => {  // Inputs validations
@@ -95,16 +96,71 @@ function AuthProvider({ children }) {   // Component for context validations
         setCreateErrors(validateCreate(userValues))
     }
 
-    function updateUser({ username, email, birthDate }) {
-        setAlertMsg('Usuário atualizado com sucesso!');
+    function validateUpdate(values) {
+        let errors = {};
+        if (values.username) {
+            const regex = /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+(\.[a-z]+)?$/i;
+            if (!values.username) errors.username = "Usuário é obrigatório!";
+            if (!values.email) {
+                errors.email = "E-mail é obrigatório!";
+            } else if (!regex.test(values.email)) {
+                errors.email = "Esse não é um formato de e-mail válido!";
+            }
+            if (!values.birthDate) errors.birthDate = "Data de nascimento é obrigatório!";
+            return errors;
+        } else {
+            if (!values.password) {
+                errors.password = "Senha é obrigatória!";
+                errors.passwordCheck = "Senha é obrigatória!";
+            } else if (values.password.length <= 4) {
+                errors.password = "a senha deve ter mais de 4 caracteres";
+                errors.passwordCheck = "a senha deve ter mais de 4 caracteres";
+            }
+            if (values.password !== values.passwordCheck) {
+                errors.password = "O valor não coincide com a senha informada!";
+                errors.passwordCheck = "O valor não coincide com a senha informada!";
+            }
+            return errors;
+        }
     }
 
-    function updatePassword({ password, passwordCheck }) {
-        setAlertMsg('Senha atualizada com sucesso!');
+    function updateUser({ username, email, birthDate }) {
+        if (Object.keys(updateErrors).length === 0) {
+            const updatedUser = {
+                ...currentUser,
+                username,
+                email,
+                birthDate
+            }
+            axios.patch(`http://localhost:8080/users/${currentUser.id}`, updatedUser);
+            setCurrentUser(updatedUser);
+        }
+        setUpdateErrors({});
+    }
+
+    function updatePassword({ password }) {
+        if (Object.keys(updateErrors).length === 0) {
+            const updatedUser = {
+                ...currentUser,
+                password
+            }
+            axios.patch(`http://localhost:8080/users/${currentUser.id}`, updatedUser);
+            setCurrentUser(updatedUser);
+        }
+        setUpdateErrors({});
+    }
+
+    function checkUpdateErrors(updateValues) {
+        setUpdateErrors(validateUpdate(updateValues));
+    }
+
+    function deleteUser() {
+        axios.delete(`http://localhost:8080/users/${currentUser.id}`);
+        handleLogout();
     }
 
     return (
-        <Context.Provider value={{ authenticated, handleLogin, createUser, handleLogout, alertMsg, loginErrors, createErrors, checkCreateErrors, currentUser, updateUser, updatePassword }}>
+        <Context.Provider value={{ authenticated, handleLogin, createUser, handleLogout, alertMsg, loginErrors, createErrors, checkCreateErrors, currentUser, updateUser, updatePassword, checkUpdateErrors, updateErrors, deleteUser }}>
             {children}
         </Context.Provider>
     );

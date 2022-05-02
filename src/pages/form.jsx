@@ -40,7 +40,7 @@ const Forms = () => {
     return (
         <div className="pg-form container">
             <div className="pg-form container-fluid row align-items-center justify-content-center">
-                <div className='col-10 col-md-8 col-lg-6 d-flex justify-content-center border border-light rounded bg-light text-dark shadow-lg'>
+                <div className='col-10 col-md-8 col-lg-6 d-flex justify-content-center rounded bg-light bg-opacity-50 text-dark shadow-lg'>
                     <Form onSubmit={handleSubmit}>
                         <Form.Group className="mt-3" controlId="formTitle">
                             <Form.Label><h1>Cadastre-se e comece a curtir</h1></Form.Label>

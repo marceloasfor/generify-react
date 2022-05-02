@@ -7,8 +7,6 @@ import Button from 'react-bootstrap/Button';
 
 const Navbar = () => {
 
-
-
     const [showAlert, setShowAlert] = useState(false);
     const { authenticated, alertMsg, handleLogout } = useContext(Context); // Authentication validations
 

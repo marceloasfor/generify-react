@@ -1,15 +1,18 @@
 import React, { useContext, useEffect, useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import Toast from 'react-bootstrap/Toast';
 import { Context } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
 export function Profile() {
 
+    const { authenticated, currentUser, updateUser, updatePassword, checkUpdateErrors, updateErrors, deleteUser } = useContext(Context);
+
     const userValues = { // User values structure
-        username: "",
-        email: "",
-        birthDate: ""
+        username: currentUser.username,
+        email: currentUser.email,
+        birthDate: currentUser.birthDate
     };
 
     const passwordValues = { // Password values structure
@@ -18,9 +21,12 @@ export function Profile() {
     };
 
     const navigate = useNavigate();
-    const { authenticated, currentUser, updateUser, updatePassword } = useContext(Context);
     const [newUserData, setNewUserData] = useState(userValues);
     const [newUserPassword, setNewUserPassword] = useState(passwordValues);
+    const [updateToast, setUpdateToast] = useState(false);
+    const [updateMsg, setUpdateMsg] = useState("Informações atualizadas com sucesso!");
+    const [isSubmitUser, setIsSubmitUser] = useState(false);    // Handle if userDate form was submitted for useEffect
+    const [isSubmitPassword, setIsSubmitPassword] = useState(false);    // Handle if password form was submitted for useEffect
 
     const handleUserDataChange = (e) => {
         const { name, value } = e.target;
@@ -36,13 +42,38 @@ export function Profile() {
 
     const handleUserDataSubmit = (e) => {
         e.preventDefault();
-        updateUser(newUserData);
+        checkUpdateErrors(newUserData);
+        setUpdateMsg('Usuário atualizado com sucesso!');
+        setIsSubmitUser(true);
+        setIsSubmitPassword(false);
     };
 
     const handleUserPasswordSubmit = (e) => {
         e.preventDefault();
-        updatePassword(newUserPassword);
+        checkUpdateErrors(newUserPassword);
+        setUpdateMsg('Senha atualizada com sucesso!');
+        setIsSubmitPassword(true);
+        setIsSubmitUser(false);
     };
+
+    const handleDeleteUser = (e) => {
+        e.preventDefault();
+        deleteUser();
+    }
+
+    useEffect(() => {   // Update user
+        if (Object.keys(updateErrors).length === 0) {
+            if (isSubmitPassword) {
+                updatePassword(newUserPassword);
+                setUpdateToast(true);
+                setIsSubmitPassword(false);
+            } else if (isSubmitUser) {
+                updateUser(newUserData);
+                setUpdateToast(true);
+                setIsSubmitUser(false);
+            }
+        }
+    }, [updateErrors, updatePassword, updateUser, newUserData, newUserPassword, isSubmitUser, isSubmitPassword, setIsSubmitPassword, setIsSubmitUser, setUpdateToast]);
 
     useEffect(() => {
         if (!authenticated) navigate("/login");
@@ -59,17 +90,26 @@ export function Profile() {
 
                         <Form.Group controlId='formBasicUsername'>
                             <Form.Label>Usuário</Form.Label>
-                            <Form.Control type='text' name='username' defaultValue={currentUser.username} placeholder='Escolha um nome de usuário' onChange={handleUserDataChange} />
+                            <Form.Control type='text' name='username' placeholder={currentUser.username} defaultValue={currentUser.username} onChange={handleUserDataChange} />
+                            {updateErrors.username ? <Form.Text className="text-muted">
+                                {updateErrors.username}
+                            </Form.Text> : <></>}
                         </Form.Group>
 
                         <Form.Group controlId="formBasicEmail">
                             <Form.Label>E-mail</Form.Label>
-                            <Form.Control type="email" name='email' defaultValue={currentUser.email} placeholder="Digite seu e-mail" onChange={handleUserDataChange} />
+                            <Form.Control type="email" name='email' placeholder={currentUser.email} defaultValue={currentUser.email} onChange={handleUserDataChange} />
+                            {updateErrors.email ? <Form.Text className="text-muted">
+                                {updateErrors.email}
+                            </Form.Text> : <></>}
                         </Form.Group>
 
                         <Form.Group controlId="formBasicDatePicker">
                             <Form.Label>Data de nascimento</Form.Label>
-                            <Form.Control type="date" name='birthDate' defaultValue={currentUser.birthDate} onChange={handleUserDataChange} />
+                            <Form.Control type="date" name='birthDate' placeholder={currentUser.birthDate} defaultValue={currentUser.birthDate} onChange={handleUserDataChange} />
+                            {updateErrors.birthDate ? <Form.Text className="text-muted">
+                                {updateErrors.birthDate}
+                            </Form.Text> : <></>}
                         </Form.Group>
 
                         <div className='d-flex justify-content-center'>
@@ -88,17 +128,17 @@ export function Profile() {
                         <Form.Group controlId='formBasicPassword'>
                             <Form.Label>Senha</Form.Label>
                             <Form.Control type='password' name='password' placeholder='Digite uma senha' onChange={handleUserPasswordChange} />
-                            <Form.Text className="text-muted">
-                                formErrors.password
-                            </Form.Text>
+                            {updateErrors.password ? <Form.Text className="text-muted">
+                                {updateErrors.password}
+                            </Form.Text> : <></>}
                         </Form.Group>
 
                         <Form.Group controlId='formBasicPasswordDoubleCheck'>
                             <Form.Label>Confirme a senha</Form.Label>
                             <Form.Control type='password' name='passwordCheck' placeholder='Repita a senha' onChange={handleUserPasswordChange} />
-                            <Form.Text className="text-muted">
-                                formErrors.passwordCheck
-                            </Form.Text>
+                            {updateErrors.passwordCheck ? <Form.Text className="text-muted">
+                                {updateErrors.passwordCheck}
+                            </Form.Text> : <></>}
                         </Form.Group>
 
                         <div className='d-flex justify-content-center'>
@@ -109,6 +149,16 @@ export function Profile() {
                     </Form>
                 </div>
             </div>}
+            <div className='d-flex justify-content-center mt-5'>
+                <Button className='mt-3 mb-3' variant='danger' onClick={handleDeleteUser}>
+                    Excluir Conta
+                </Button>
+            </div>
+            <div className='d-flex justify-content-center mt-5'>
+                <Toast className="loginAlert" onClose={() => setUpdateToast(false)} variant="success" show={updateToast} delay={2000} autohide>
+                    <Toast.Body>{updateMsg}</Toast.Body>
+                </Toast>
+            </div>
         </div>
     )
 };
