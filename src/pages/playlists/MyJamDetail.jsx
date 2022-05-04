@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 const axios = require('axios').default;
 
-const PlaylistDetail = () => {
+const MyJamDetail = () => {
     const { id } = useParams();
 
     const playlistFormat = { // Playlist values structure
@@ -29,31 +29,8 @@ const PlaylistDetail = () => {
     const [currentSongIndex, setCurrentSongIndex] = useState(0);
     const [nextSongIndex, setNextSongIndex] = useState(currentSongIndex + 1);
 
-    const { authenticated, currentUser, updateUser } = useContext(Context);
+    const { authenticated } = useContext(Context);
     const navigate = useNavigate();
-    const [follow, setFollow] = useState(false);
-
-    const handleFollow = () => {
-        const newUserPlaylists = [...currentUser.playlists, playlist];
-        const newUser = {
-            ...currentUser,
-            playlists: newUserPlaylists
-        }
-        axios.patch(`http://localhost:8080/users/${currentUser.id}`, newUser);
-        setFollow(true);
-        updateUser();
-    }
-
-    const handleUnfollow = () => {
-        const newUserPlaylists = currentUser.playlists.filter((playlists) => playlists.id !== playlist.id && playlists.name !== playlist.id);
-        const newUser = {
-            ...currentUser,
-            playlists: newUserPlaylists
-        }
-        axios.patch(`http://localhost:8080/users/${currentUser.id}`, newUser);
-        setFollow(false);
-        updateUser();
-    }
 
     useEffect(() => {
         if (authenticated) {
@@ -61,15 +38,10 @@ const PlaylistDetail = () => {
                 .then(
                     (response) => {
                         setPlaylist(response.data);
-                        if (currentUser.playlists.length > 0) {
-                            if (currentUser.playlists.some(data => data.id === response.data.id && data.name === response.data.name)) {
-                                setFollow(true);
-                            }
-                        }
                     }
                 )
         }
-    }, [id, authenticated, currentUser]);
+    }, [id, authenticated]);
 
     useEffect(() => {
         if (!authenticated) navigate("/login");
@@ -100,14 +72,9 @@ const PlaylistDetail = () => {
 
     return (
         <div className="pg-faq container" >
-            {authenticated && <div className="row" >
+            <div className="row" >
 
-                <span style={{ textAlign: 'center', paddingBottom: '20px' }}>
-                    <b className="main-font">Generi - {playlist.name}</b>
-                    {follow
-                        ? <Button className="ml-5" variant="danger" onClick={handleUnfollow}>Remover</Button>
-                        : <Button className="ml-5" variant="primary" onClick={handleFollow}>Salvar</Button>}
-                </span>
+                <span style={{ textAlign: 'center', paddingBottom: '20px' }}><b className="main-font">My Jam - {playlist.name}</b></span>
                 <p className="text-center text-muted">{playlist.about}</p>
                 <p className="text-center font-weight-bold">Tocando: {playlist.songs[currentSongIndex].artist} - {playlist.songs[currentSongIndex].name}</p>
                 <Player songs={playlist.songs} currentSongIndex={currentSongIndex} setCurrentSongIndex={setCurrentSongIndex} nextSongIndex={nextSongIndex} />
@@ -127,9 +94,9 @@ const PlaylistDetail = () => {
                         </Col>
                     </Row>
                 </Container>
-            </div>}
+            </div>
         </div >
     );
 };
 
-export default PlaylistDetail;
+export default MyJamDetail;

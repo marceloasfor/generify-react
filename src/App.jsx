@@ -12,6 +12,8 @@ import { Profile } from './pages/profile';
 import PlaylistDetail from './pages/playlists/PlaylistDetail';
 import PlaylistList from './pages/playlists/PlaylistList';
 import { AuthProvider } from './context/AuthContext';	// Passes context to children
+import MyJam from './pages/playlists/MyJam';
+import MyJamDetail from './pages/playlists/MyJamDetail';
 
 
 
@@ -29,6 +31,8 @@ function App() {
 					<Route path='/profile' element={<Profile />} />
 					<Route path='/playlists' element={<PlaylistList />} />
 					<Route path='/playlists/:id' element={<PlaylistDetail />} />
+					<Route path='/myjam' element={<MyJam />} />
+					<Route path='/myjam/:id' element={<MyJamDetail />} />
 				</Routes>
 				<Footer />
 			</Router>

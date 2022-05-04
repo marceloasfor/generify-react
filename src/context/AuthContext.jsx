@@ -81,12 +81,14 @@ function AuthProvider({ children }) {   // Component for context validations
                 email,
                 password,
                 birthDate,
+                playlists: [],
                 createdAt: new Date()
             }
+            setAlertMsg(`Conta criada, bem-vindo ${user.username}!`);
             setAuthenticated(true);
             // console.log("Usuário criado!");
             // console.log(users);
-            axios.post(`http://localhost:8080/users`, user);
+            axios.post(`http://localhost:8080/users`, user).then(({ data }) => setCurrentUser(data));;
             handleLogin(user);
         }
         setCreateErrors({})
@@ -124,7 +126,7 @@ function AuthProvider({ children }) {   // Component for context validations
         }
     }
 
-    function updateUser({ username, email, birthDate }) {
+    function updateUserData({ username, email, birthDate }) {
         if (Object.keys(updateErrors).length === 0) {
             const updatedUser = {
                 ...currentUser,
@@ -159,8 +161,17 @@ function AuthProvider({ children }) {   // Component for context validations
         handleLogout();
     }
 
+    function updateUser() {
+        axios.get(`http://localhost:8080/users/${currentUser.id}`)
+            .then(
+                (response) => {
+                    setCurrentUser(response.data);
+                }
+            )
+    }
+
     return (
-        <Context.Provider value={{ authenticated, handleLogin, createUser, handleLogout, alertMsg, loginErrors, createErrors, checkCreateErrors, currentUser, updateUser, updatePassword, checkUpdateErrors, updateErrors, deleteUser }}>
+        <Context.Provider value={{ authenticated, handleLogin, createUser, updateUser, handleLogout, alertMsg, loginErrors, createErrors, checkCreateErrors, currentUser, updateUserData, updatePassword, checkUpdateErrors, updateErrors, deleteUser }}>
             {children}
         </Context.Provider>
     );

@@ -312,7 +312,17 @@
       "password": "12345",
       "birthDate": "1997-04-24",
       "createdAt": "2022-04-29T00:24:16.968Z",
-      "id": 1
+      "id": 1,
+      "playlists": []
+    },
+    {
+      "username": "teste",
+      "email": "teste@gmail.com",
+      "password": "12345",
+      "birthDate": "1997-04-24",
+      "playlists": [],
+      "createdAt": "2022-05-04T23:29:36.990Z",
+      "id": 2
     }
   ]
 }

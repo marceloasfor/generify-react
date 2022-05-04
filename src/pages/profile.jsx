@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 
 export function Profile() {
 
-    const { authenticated, currentUser, updateUser, updatePassword, checkUpdateErrors, updateErrors, deleteUser } = useContext(Context);
+    const { authenticated, currentUser, updateUserData, updatePassword, checkUpdateErrors, updateErrors, deleteUser } = useContext(Context);
 
     const userValues = { // User values structure
         username: currentUser.username,
@@ -68,12 +68,12 @@ export function Profile() {
                 setUpdateToast(true);
                 setIsSubmitPassword(false);
             } else if (isSubmitUser) {
-                updateUser(newUserData);
+                updateUserData(newUserData);
                 setUpdateToast(true);
                 setIsSubmitUser(false);
             }
         }
-    }, [updateErrors, updatePassword, updateUser, newUserData, newUserPassword, isSubmitUser, isSubmitPassword, setIsSubmitPassword, setIsSubmitUser, setUpdateToast]);
+    }, [updateErrors, updatePassword, updateUserData, newUserData, newUserPassword, isSubmitUser, isSubmitPassword, setIsSubmitPassword, setIsSubmitUser, setUpdateToast]);
 
     useEffect(() => {
         if (!authenticated) navigate("/login");
