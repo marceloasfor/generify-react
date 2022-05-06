@@ -12,8 +12,9 @@ import { Profile } from './pages/profile';
 import PlaylistDetail from './pages/playlists/PlaylistDetail';
 import PlaylistList from './pages/playlists/PlaylistList';
 import { AuthProvider } from './context/AuthContext';	// Passes context to children
-import MyJam from './pages/playlists/MyJam';
 import MyJamDetail from './pages/playlists/MyJamDetail';
+import MyJamList from './pages/playlists/MyJamList';
+import AllSongs from './pages/AllSongs';
 
 
 
@@ -31,8 +32,9 @@ function App() {
 					<Route path='/profile' element={<Profile />} />
 					<Route path='/playlists' element={<PlaylistList />} />
 					<Route path='/playlists/:id' element={<PlaylistDetail />} />
-					<Route path='/myjam' element={<MyJam />} />
-					<Route path='/myjam/:id' element={<MyJamDetail />} />
+					<Route path='/users/:id/playlists' element={<MyJamList />} />
+					<Route path='/users/:id/playlist/' element={<MyJamDetail />} />
+					<Route path='/users/:id/new_playlist/' element={<AllSongs />} />
 				</Routes>
 				<Footer />
 			</Router>

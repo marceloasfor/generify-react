@@ -8,7 +8,7 @@ import Button from 'react-bootstrap/Button';
 const Navbar = () => {
 
     const [showAlert, setShowAlert] = useState(false);
-    const { authenticated, alertMsg, handleLogout } = useContext(Context); // Authentication validations
+    const { authenticated, alertMsg, handleLogout, currentUser } = useContext(Context); // Authentication validations
 
     useEffect(() => {
         if (authenticated) {
@@ -36,7 +36,7 @@ const Navbar = () => {
                                 </NavLink>
                             </li>
                             <li className="nav-item">
-                                <NavLink className="nav-link" to="/myjam" >
+                                <NavLink className="nav-link" to={currentUser ? `/users/${currentUser.id}/playlists` : `/playlists`} >
                                     MyJam
                                 </NavLink>
                             </li>

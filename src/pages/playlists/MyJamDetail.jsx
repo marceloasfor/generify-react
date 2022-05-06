@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Button, Col, Container, Row, Table } from "react-bootstrap";
-import { useParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import Player from "../../components/Player/Player";
 import { Context } from '../../context/AuthContext';
 import { useNavigate } from "react-router-dom";
@@ -29,15 +29,19 @@ const MyJamDetail = () => {
     const [currentSongIndex, setCurrentSongIndex] = useState(0);
     const [nextSongIndex, setNextSongIndex] = useState(currentSongIndex + 1);
 
-    const { authenticated } = useContext(Context);
+    const { authenticated, currentUser } = useContext(Context);
     const navigate = useNavigate();
+    const [searchParams, setSearchParams] = useSearchParams();
+    
+    let pId = searchParams.get('pname');
+    console.log(pId);
 
     useEffect(() => {
         if (authenticated) {
-            axios.get(`http://localhost:8080/playlists/${id}`)
+            axios.get(`http://localhost:8080/users/${currentUser.id}`)
                 .then(
                     (response) => {
-                        setPlaylist(response.data);
+                        setPlaylist(response.data.playlists[pId - 1]);
                     }
                 )
         }
@@ -74,7 +78,7 @@ const MyJamDetail = () => {
         <div className="pg-faq container" >
             <div className="row" >
 
-                <span style={{ textAlign: 'center', paddingBottom: '20px' }}><b className="main-font">My Jam - {playlist.name}</b></span>
+                <span style={{ textAlign: 'center', paddingBottom: '20px' }}><b className="main-font">Generi - {playlist.name}</b></span>
                 <p className="text-center text-muted">{playlist.about}</p>
                 <p className="text-center font-weight-bold">Tocando: {playlist.songs[currentSongIndex].artist} - {playlist.songs[currentSongIndex].name}</p>
                 <Player songs={playlist.songs} currentSongIndex={currentSongIndex} setCurrentSongIndex={setCurrentSongIndex} nextSongIndex={nextSongIndex} />
@@ -82,7 +86,7 @@ const MyJamDetail = () => {
                 <Container>
                     <Row md={2} className="justify-content-md-center">
                         <Col className="justify-content-md-center">
-                            <img className="w-75" src={`../${playlist.cover} `} alt="" />
+                            <img className="w-75" src={`/${playlist.cover} `} alt="" />
 
                         </Col>
                         <Col>
