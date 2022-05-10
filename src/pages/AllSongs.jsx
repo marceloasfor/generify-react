@@ -24,7 +24,7 @@ const AllSongs = () => {
                     setUser(response.data);
                 }
             )
-    }, []);
+    }, [userId]);
     const allSongsTemplate = [
         {
             id: 21,
@@ -84,6 +84,18 @@ const AllSongs = () => {
             found = false;
         }
     };
+
+    useEffect(() => {
+        for (let el in markedToAdd) {
+            let element = document.getElementById(markedToAdd[el]);
+            if (element){
+                element.style.backgroundColor = "#BD2823";
+                element.style.color = "#10012b";
+                element.textContent = "-";
+            }
+        }
+    }, [searchResults]);
+
     const songsArray = allSongs.map((p) => {
         return (
 
