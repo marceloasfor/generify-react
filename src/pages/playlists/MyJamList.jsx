@@ -49,7 +49,7 @@ const MyJamList = () => {
         if (p.id != -1) {
             return (
                 <Col className="flex-fill mb-3" key={p.id}>
-                    <Link to={`/users/${userId}/playlist/?pname=${p.id}`}> 
+                    <Link to={`/users/${userId}/playlist/?pname=${p.id}`}>
                         <img className="card-img-top" src={`/${p.cover}`} alt="" />
                     </Link>
                 </Col>
@@ -57,14 +57,16 @@ const MyJamList = () => {
             )
         } else {
             return (
-                <Col className="flex-fill mb-3">
-                    <Link to={`/users/${userId}/new_playlist/`}> 
-                    <Button style={{margin: "auto",
+                <Col className="flex-fill mb-3" key={p.id}>
+                    <Link to={`/users/${userId}/new_playlist/`}>
+                        <Button style={{
+                            margin: "auto",
                             width: "100%",
                             height: "265px",
-                            backgroundColor: "#10012b"}}>
-                        <BsPlusCircle style={{ fontSize: "100px", color: "#9e4dde" }}/>
-                    </Button>
+                            backgroundColor: "#10012b"
+                        }}>
+                            <BsPlusCircle style={{ fontSize: "100px", color: "#9e4dde" }} />
+                        </Button>
                     </Link>
                 </Col>
             )

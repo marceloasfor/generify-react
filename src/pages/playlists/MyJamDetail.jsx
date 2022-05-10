@@ -32,7 +32,7 @@ const MyJamDetail = () => {
     const { authenticated, currentUser } = useContext(Context);
     const navigate = useNavigate();
     const [searchParams, setSearchParams] = useSearchParams();
-    
+
     let pId = searchParams.get('pname');
     console.log(pId);
 
