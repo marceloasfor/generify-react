@@ -15,7 +15,7 @@ import { AuthProvider } from './context/AuthContext';	// Passes context to child
 import MyJamDetail from './pages/playlists/MyJamDetail';
 import MyJamList from './pages/playlists/MyJamList';
 import AllSongs from './pages/AllSongs';
-
+import EditPlaylist from './pages/playlists/EditPlaylist';
 
 
 function App() {
@@ -35,6 +35,7 @@ function App() {
 					<Route path='/users/:id/playlists' element={<MyJamList />} />
 					<Route path='/users/:id/playlist/' element={<MyJamDetail />} />
 					<Route path='/users/:id/new_playlist/' element={<AllSongs />} />
+					<Route path='/users/:id/edit_playlist/' element={<EditPlaylist />} />
 				</Routes>
 				<Footer />
 			</Router>

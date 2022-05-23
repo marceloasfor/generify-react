@@ -30,7 +30,7 @@ function AuthProvider({ children }) {   // Component for context validations
 
     async function handleLogin(userLogin) {   // Search login values in users array
         let users;
-        await axios.get(`http://localhost:8080/users`)
+        await axios.get(`http://localhost:8080/api/users/`)
             .then(
                 (response) => {
                     users = response.data;
@@ -88,7 +88,7 @@ function AuthProvider({ children }) {   // Component for context validations
             setAuthenticated(true);
             // console.log("Usuário criado!");
             // console.log(users);
-            axios.post(`http://localhost:8080/users`, user).then(({ data }) => setCurrentUser(data));;
+            axios.post(`http://localhost:8080/api/users/`, user).then(({ data }) => setCurrentUser(data));;
             handleLogin(user);
         }
         setCreateErrors({})
@@ -134,7 +134,7 @@ function AuthProvider({ children }) {   // Component for context validations
                 email,
                 birthDate
             }
-            axios.patch(`http://localhost:8080/users/${currentUser.id}`, updatedUser);
+            axios.patch(`http://localhost:8080/api/users/${currentUser.id}/`, updatedUser);
             setCurrentUser(updatedUser);
         }
         setUpdateErrors({});
@@ -146,7 +146,7 @@ function AuthProvider({ children }) {   // Component for context validations
                 ...currentUser,
                 password
             }
-            axios.patch(`http://localhost:8080/users/${currentUser.id}`, updatedUser);
+            axios.patch(`http://localhost:8080/api/users/${currentUser.id}/`, updatedUser);
             setCurrentUser(updatedUser);
         }
         setUpdateErrors({});
@@ -157,12 +157,12 @@ function AuthProvider({ children }) {   // Component for context validations
     }
 
     function deleteUser() {
-        axios.delete(`http://localhost:8080/users/${currentUser.id}`);
+        axios.delete(`http://localhost:8080/api/users/${currentUser.id}/`);
         handleLogout();
     }
 
     function updateUser() {
-        axios.get(`http://localhost:8080/users/${currentUser.id}`)
+        axios.get(`http://localhost:8080/api/users/${currentUser.id}/`)
             .then(
                 (response) => {
                     setCurrentUser(response.data);

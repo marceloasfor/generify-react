@@ -15,7 +15,7 @@ const PlaylistDetail = () => {
         name: "",
         cover: "",
         about: "",
-        songs: [
+        song: [
             {
                 id: "",
                 artist: "",
@@ -39,7 +39,7 @@ const PlaylistDetail = () => {
             ...currentUser,
             playlists: newUserPlaylists
         }
-        axios.patch(`http://localhost:8080/users/${currentUser.id}`, newUser);
+        axios.patch(`http://localhost:8080/api/users/${currentUser.id}/`, newUser);
         setFollow(true);
         updateUser();
     }
@@ -50,14 +50,14 @@ const PlaylistDetail = () => {
             ...currentUser,
             playlists: newUserPlaylists
         }
-        axios.patch(`http://localhost:8080/users/${currentUser.id}`, newUser);
+        axios.patch(`http://localhost:8080/api/users/${currentUser.id}/`, newUser);
         setFollow(false);
         updateUser();
     }
 
     useEffect(() => {
         if (authenticated) {
-            axios.get(`http://localhost:8080/playlists/${id}`)
+            axios.get(`http://localhost:8080/api/playlists/${id}/`)
                 .then(
                     (response) => {
                         setPlaylist(response.data);
@@ -75,7 +75,7 @@ const PlaylistDetail = () => {
         if (!authenticated) navigate("/login");
     }, [authenticated, navigate]);
 
-    const renderSongs = playlist.songs.map((p) => {
+    const renderSongs = !playlist.song ? null : playlist.song.map((p) => {
         return (
             <tr key={p.id}>
                 <td>
@@ -87,10 +87,9 @@ const PlaylistDetail = () => {
         )
     });
 
-
     useEffect(() => {
         setNextSongIndex(() => {
-            if (currentSongIndex + 1 > playlist.songs.length - 1) {
+            if (currentSongIndex + 1 > playlist.song.length - 1) {
                 return 0;
             } else {
                 return currentSongIndex + 1;
@@ -109,13 +108,13 @@ const PlaylistDetail = () => {
                         : <Button className="ml-5" variant="primary" onClick={handleFollow}>Salvar</Button>}
                 </span>
                 <p className="text-center text-muted">{playlist.about}</p>
-                <p className="text-center font-weight-bold">Tocando: {playlist.songs[currentSongIndex].artist} - {playlist.songs[currentSongIndex].name}</p>
-                <Player songs={playlist.songs} currentSongIndex={currentSongIndex} setCurrentSongIndex={setCurrentSongIndex} nextSongIndex={nextSongIndex} />
+                <p className="text-center font-weight-bold">Tocando: {playlist.song[currentSongIndex].artist} - {playlist.song[currentSongIndex].name}</p>
+                <Player songs={playlist.song} currentSongIndex={currentSongIndex} setCurrentSongIndex={setCurrentSongIndex} nextSongIndex={nextSongIndex} />
 
                 <Container>
                     <Row md={2} className="justify-content-md-center">
                         <Col className="justify-content-md-center">
-                            <img className="w-75" src={`../${playlist.cover} `} alt="" />
+                            <img className="w-75" src={`http://localhost:8080/api/playlists/${playlist.id}/cover/ `} alt="" />
 
                         </Col>
                         <Col>

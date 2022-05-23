@@ -18,7 +18,7 @@ const PlaylistList = () => {
 
     useEffect(() => {
         if (authenticated) {
-            axios.get("http://localhost:8080/playlists")
+            axios.get("http://localhost:8080/api/playlists/")
                 .then(
                     (response) => {
                         setPlaylists(response.data);
@@ -32,7 +32,7 @@ const PlaylistList = () => {
             return (
                 <Col className="flex-fill mb-3" key={p.id}>
                     <Link to={`/playlists/${p.id}`}>
-                        <img className="card-img-top" src={p.cover} alt="" />
+                        <img className="card-img-top" src={`http://localhost:8080/api/playlists/${p.id}/cover`}alt="" />
                     </Link>
                 </Col>
 
