@@ -38,7 +38,7 @@ const MyJamDetail = () => {
 
   useEffect(() => {
     if (authenticated) {
-      axios.get(`http://localhost:8080/users/${currentUser.id}`)
+      axios.get(`http://localhost:8080/api/users/${currentUser.id}/`)
         .then(
           (response) => {
             setUser(response.data)
@@ -69,11 +69,11 @@ const MyJamDetail = () => {
     }
 
     if(updated_songs ==  0) {
-      axios.patch(`http://localhost:8080/users/${currentUser.id}`, updatedUser);
+      axios.patch(`http://localhost:8080/api/users/${currentUser.id}/`, updatedUser);
       setUser(updatedUser);
       navigate(`/users/${currentUser.id}/playlists/`);
     } else {
-      axios.patch(`http://localhost:8080/users/${currentUser.id}`, updatedUser);
+      axios.patch(`http://localhost:8080/api/users/${currentUser.id}/`, updatedUser);
       setUser(updatedUser);
     }
   }
@@ -126,6 +126,17 @@ const MyJamDetail = () => {
               <Table borderless hover size="lg" style={{ borderRadius: "10px", backgroundColor: "#b27cde", color: "#491d6c", fontWeight: "bold" }}>
                 <tbody>
                   {renderSongs}
+                  <tr>
+                    <td>
+                      <Row>
+                        <Col md={1}>
+                            <Button onClick={() => { navigate(`/users/${currentUser.id}/edit_playlist/?playlist_id=${pId - 1}`) }}>+</Button>
+                        </Col>
+                        <Col md={11}>
+                        </Col>
+                        </Row>
+                    </td>
+                  </tr>
                 </tbody>
               </Table>
             </Col>

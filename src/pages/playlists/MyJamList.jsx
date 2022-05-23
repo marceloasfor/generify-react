@@ -35,11 +35,11 @@ const MyJamList = () => {
 
     useEffect(() => {
         if (authenticated) {
-            axios.get(`http://localhost:8080/users/${userId}`)
+            axios.get(`http://localhost:8080/api/users/${userId}/`)
                 .then(
                     (response) => {
-                        response.data.playlists.push(new_plyalist);
-                        setPlaylists(response.data.playlists);
+                        response.data.playlist.push(new_plyalist);
+                        setPlaylists(response.data.playlist);
                     }
                 )
         }
@@ -50,7 +50,7 @@ const MyJamList = () => {
             return (
                 <Col className="flex-fill mb-3" key={p.id}>
                     <Link to={`/users/${userId}/playlist/?pname=${p.id}`}>
-                        <img className="card-img-top" src={`/${p.cover}`} alt="" />
+                        <img className="card-img-top" src={`http://localhost:8080/api/playlists/${p.id}/cover/`} alt="" />
                     </Link>
                 </Col>
 

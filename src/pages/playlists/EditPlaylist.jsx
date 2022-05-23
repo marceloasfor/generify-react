@@ -1,13 +1,16 @@
+import { Link } from 'react-router-dom';
 import React, { useEffect, useContext, useState, useRef } from "react";
 import { Button, Col, Container, Row, Table } from "react-bootstrap";
+import { useParams, useSearchParams } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
-import { Context } from '../context/AuthContext';
+import { Context } from '../../context/AuthContext';
 import { useNavigate } from "react-router-dom";
 
 
 const axios = require('axios').default;
 
-const AllSongs = () => {
+const EditPlaylist = () => {
+  const { id } = useParams();
   const { authenticated, currentUser } = useContext(Context);
   const navigate = useNavigate();
 
@@ -133,7 +136,6 @@ const AllSongs = () => {
       ...user,
       playlist
     }
-    console.log(updatedUser);
     axios.put(`http://localhost:8080/api/users/${userId}/`, updatedUser);
     setUser(updatedUser);
 
@@ -183,4 +185,4 @@ const AllSongs = () => {
   );
 }
 
-export default AllSongs
+export default EditPlaylist
