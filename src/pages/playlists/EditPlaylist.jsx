@@ -153,7 +153,7 @@ const EditPlaylist = () => {
     }
 
     axios.put(`http://localhost:8080/api/playlists/${playlist_id}/?user_id=${userId}`, playlist_);
-    navigate(`/users/${userId}/playlists`);
+    navigate(`/playlists`);
   };
 
   const getSearchTerm = () => {
