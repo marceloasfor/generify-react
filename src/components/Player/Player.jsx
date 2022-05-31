@@ -43,7 +43,7 @@ const Player = (props) => {
 
     return (
         <div className="player">
-            <ReactAudioPlayer src={props.songs[props.currentSongIndex].file} ref={audioElement} />
+            <ReactAudioPlayer src={props.songs[props.currentSongIndex]?.file} ref={audioElement} />
             <PlayerControls isPlaying={isPlaying} setIsPlaying={setIsPlaying} SkipSong={SkipSong} />
         </div>
     );

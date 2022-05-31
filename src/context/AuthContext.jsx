@@ -69,18 +69,18 @@ function AuthProvider({ children }) {   // Component for context validations
             errors.password = "O valor não coincide com a senha informada!";
             errors.passwordCheck = "O valor não coincide com a senha informada!"
         }
-        if (!values.birthDate) errors.birthDate = "Data de nascimento é obrigatório!";
+        if (!values.birthdate) errors.birthdate = "Data de nascimento é obrigatório!";
         return errors;
     };
 
     function createUser(userValues) {  // Add form values in users array
         if (Object.keys(createErrors).length === 0) {
-            const { username, email, password, birthDate } = userValues
+            const { username, email, password, birthdate } = userValues
             const user = {
                 username,
                 email,
                 password,
-                birthDate,
+                birthdate,
                 playlists: [],
                 createdAt: new Date()
             }
@@ -108,7 +108,7 @@ function AuthProvider({ children }) {   // Component for context validations
             } else if (!regex.test(values.email)) {
                 errors.email = "Esse não é um formato de e-mail válido!";
             }
-            if (!values.birthDate) errors.birthDate = "Data de nascimento é obrigatório!";
+            if (!values.birthdate) errors.birthdate = "Data de nascimento é obrigatório!";
             return errors;
         } else {
             if (!values.password) {
@@ -126,13 +126,13 @@ function AuthProvider({ children }) {   // Component for context validations
         }
     }
 
-    function updateUserData({ username, email, birthDate }) {
+    function updateUserData({ username, email, birthdate }) {
         if (Object.keys(updateErrors).length === 0) {
             const updatedUser = {
                 ...currentUser,
                 username,
                 email,
-                birthDate
+                birthdate
             }
             axios.patch(`http://localhost:8080/api/users/${currentUser.id}/`, updatedUser);
             setCurrentUser(updatedUser);

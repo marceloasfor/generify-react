@@ -15,6 +15,7 @@ const PlaylistDetail = () => {
         name: "",
         cover: "",
         about: "",
+        user_id: "",
         song: [
             {
                 id: "",
@@ -61,7 +62,7 @@ const PlaylistDetail = () => {
                 .then(
                     (response) => {
                         setPlaylist(response.data);
-                        if (currentUser.playlists.length > 0) {
+                        if (currentUser.playlists?.length > 0) {
                             if (currentUser.playlists.some(data => data.id === response.data.id && data.name === response.data.name)) {
                                 setFollow(true);
                             }
@@ -79,7 +80,7 @@ const PlaylistDetail = () => {
         return (
             <tr key={p.id}>
                 <td>
-                    <Button variant="clear" className="w-100" onClick={() => { setCurrentSongIndex(playlist.songs.indexOf(p)) }}>
+                    <Button variant="clear" className="w-100" onClick={() => { setCurrentSongIndex(playlist.song.indexOf(p)) }}>
                         {p.artist} - {p.name}
                     </Button>
                 </td>
@@ -114,7 +115,7 @@ const PlaylistDetail = () => {
                 <Container>
                     <Row md={2} className="justify-content-md-center">
                         <Col className="justify-content-md-center">
-                            <img className="w-75" src={`http://localhost:8080/api/playlists/${playlist.id}/cover/ `} alt="" />
+                            <img className="w-75" src={playlist.id && `http://localhost:8080/api/playlists/${playlist.id}/cover/ `} alt="" />
 
                         </Col>
                         <Col>

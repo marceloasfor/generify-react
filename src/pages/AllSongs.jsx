@@ -12,19 +12,10 @@ const AllSongs = () => {
   const navigate = useNavigate();
 
   const userId = authenticated ? currentUser.id : 1;
-  const [user, setUser] = useState({});
   const inputEl = useRef("");
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
 
-  useEffect(() => {
-    axios.get(`http://localhost:8080/api/users/${userId}/`)
-      .then(
-        (response) => {
-          setUser(response.data);
-        }
-      )
-  }, [userId]);
   const allSongsTemplate = [
     {
       id: "",
@@ -95,8 +86,8 @@ const AllSongs = () => {
         <td>
           <button
             type="button"
-            id={allSongs.indexOf(p)}
-            onClick={() => AddSong(allSongs.indexOf(p))}
+            id={p.id}
+            onClick={() => AddSong(p.id)}
             style={{
                 backgroundColor: "#10012b",
                 color: "#e1aaff"
@@ -111,33 +102,20 @@ const AllSongs = () => {
   const createPlaylist = () => {
     const playlistName = document.getElementById('PlaylistName').value;
     let personalSongs = []
-    markedToAdd.forEach((index) => {
-      personalSongs.push(allSongs[index]);
-    });
-
-    let playlistId = 1;
-    if (user.playlist.length) {
-      playlistId = user.playlist[user.playlist.length - 1].id + 1
+    for(let index in markedToAdd) {
+      const getSong = allSongs.find(song => song.id === markedToAdd[index]);
+      personalSongs.push(getSong);
     }
 
     const playlist_ = {
-      id: playlistId,
       name: playlistName,
-      cover: "rock.jpg",
       about: "Melhores músicas do momento, aperte play e entre no clima!",
-      songs: personalSongs
+      user_id: userId,
+      song: personalSongs
     }
-    let playlist = user.playlist;
-    playlist.push(playlist_);
-    const updatedUser = {
-      ...user,
-      playlist
-    }
-    console.log(updatedUser);
-    axios.put(`http://localhost:8080/api/users/${userId}/`, updatedUser);
-    setUser(updatedUser);
 
-    navigate(`/users/${userId}/playlists/`)
+    axios.post(`http://localhost:8080/api/playlists/?user_id=${userId}`, playlist_);
+    navigate(`/playlists`);
   };
 
   const getSearchTerm = () => {
