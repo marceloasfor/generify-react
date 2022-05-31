@@ -12,7 +12,7 @@ export function Profile() {
     const userValues = { // User values structure
         username: currentUser.username,
         email: currentUser.email,
-        birthDate: currentUser.birthDate
+        birthdate: currentUser.birthdate
     };
 
     const passwordValues = { // Password values structure
@@ -106,9 +106,9 @@ export function Profile() {
 
                         <Form.Group controlId="formBasicDatePicker">
                             <Form.Label>Data de nascimento</Form.Label>
-                            <Form.Control type="date" name='birthDate' placeholder={currentUser.birthDate} defaultValue={currentUser.birthDate} onChange={handleUserDataChange} />
-                            {updateErrors.birthDate ? <Form.Text className="text-muted">
-                                {updateErrors.birthDate}
+                            <Form.Control type="date" name='birthdate' placeholder={currentUser.birthdate} defaultValue={currentUser.birthdate} onChange={handleUserDataChange} />
+                            {updateErrors.birthdate ? <Form.Text className="text-muted">
+                                {updateErrors.birthdate}
                             </Form.Text> : <></>}
                         </Form.Group>
 

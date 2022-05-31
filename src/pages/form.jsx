@@ -10,7 +10,7 @@ const Forms = () => {
         email: "",
         password: "",
         passwordCheck: "",
-        birthDate: ""
+        birthdate: ""
     };
 
     const navigate = useNavigate(); // Hook for routes redirection
@@ -80,9 +80,9 @@ const Forms = () => {
 
                         <Form.Group controlId="formBasicDatePicker">
                             <Form.Label>Data de nascimento</Form.Label>
-                            <Form.Control type="date" name='birthDate' value={formValues.birthDate} onChange={handleChange} />
+                            <Form.Control type="date" name='birthdate' value={formValues.birthdate} onChange={handleChange} />
                             <Form.Text className="text-muted">
-                                {createErrors.birthDate}
+                                {createErrors.birthdate}
                             </Form.Text>
                         </Form.Group>
 
