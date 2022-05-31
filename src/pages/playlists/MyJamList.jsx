@@ -13,13 +13,12 @@ const MyJamList = () => {
     const navigate = useNavigate();
     const [playlists, setPlaylists] = useState([]);
 
-    const userId = currentUser.id;
-
     const new_plyalist = { // Playlist values structure
         id: -1,
         name: "qwerty",
         cover: "",
         about: "",
+        user_id: "",
         songs: [
             {
                 id: "",
@@ -35,21 +34,21 @@ const MyJamList = () => {
 
     useEffect(() => {
         if (authenticated) {
-            axios.get(`http://localhost:8080/api/users/${userId}/`)
+            axios.get(`http://localhost:8080/api/playlists/?user_id=${currentUser.id}`)
                 .then(
                     (response) => {
-                        response.data.playlist.push(new_plyalist);
-                        setPlaylists(response.data.playlist);
+                        response.data.push(new_plyalist);
+                        setPlaylists(response.data);
                     }
                 )
         }
     }, [authenticated]);
 
     const dados = playlists.map((p) => {
-        if (p.id != -1) {
+        if (p.id !== -1) {
             return (
                 <Col className="flex-fill mb-3" key={p.id}>
-                    <Link to={`/users/${userId}/playlist/?pname=${p.id}`}>
+                    <Link to={`/users/${currentUser.id}/playlist/?pname=${p.id}`}>
                         <img className="card-img-top" src={`http://localhost:8080/api/playlists/${p.id}/cover/`} alt="" />
                     </Link>
                 </Col>
@@ -58,7 +57,7 @@ const MyJamList = () => {
         } else {
             return (
                 <Col className="flex-fill mb-3" key={p.id}>
-                    <Link to={`/users/${userId}/new_playlist/`}>
+                    <Link to={`/users/${currentUser.id}/new_playlist/`}>
                         <Button style={{
                             margin: "auto",
                             width: "100%",

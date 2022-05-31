@@ -1,7 +1,6 @@
-import { Link } from 'react-router-dom';
 import React, { useEffect, useContext, useState, useRef } from "react";
 import { Button, Col, Container, Row, Table } from "react-bootstrap";
-import { useParams, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 import { Context } from '../../context/AuthContext';
 import { useNavigate } from "react-router-dom";
@@ -10,24 +9,63 @@ import { useNavigate } from "react-router-dom";
 const axios = require('axios').default;
 
 const EditPlaylist = () => {
-  const { id } = useParams();
   const { authenticated, currentUser } = useContext(Context);
   const navigate = useNavigate();
 
   const userId = authenticated ? currentUser.id : 1;
-  const [user, setUser] = useState({});
   const inputEl = useRef("");
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
+  const [searchParams] = useSearchParams();
 
+  let playlist_id = searchParams.get('playlist_id');
+
+  const playlistFormat = { // Playlist values structure
+    id: "",
+    name: "",
+    cover: "",
+    about: "",
+    user_id: "",
+    song: [
+      {
+        id: "",
+        artist: "",
+        name: "",
+        file: ""
+      }
+    ]
+  };
+
+  const [playlist, setPlaylist] = useState(playlistFormat);
+  
   useEffect(() => {
-    axios.get(`http://localhost:8080/api/users/${userId}/`)
+    axios.get(`http://localhost:8080/api/playlists/${playlist_id}/?user_id=${userId}`)
       .then(
         (response) => {
-          setUser(response.data);
+          setPlaylist(response.data);
+          for (let i in playlist.song) {
+            AddSong(playlist.song[i].id);
+          }
+          document.getElementById('PlaylistName').value = playlist.name;
         }
       )
-  }, [userId]);
+  }, []);
+
+  // useEffect(() => {
+  //   async function fetchPlaylist() {
+  //     axios.get(`http://localhost:8080/api/playlists/${playlist_id}/?user_id=${userId}`)
+  //       .then(
+  //         (response) => {
+  //           setPlaylist(response.data);
+  //           for (let i in playlist.song) {
+  //             AddSong(playlist.song[i].id);
+  //           }
+  //         }
+  //       )
+  //   }
+  //   fetchPlaylist();
+  // }, [userId, playlist_id]);
+
   const allSongsTemplate = [
     {
       id: "",
@@ -58,6 +96,9 @@ const EditPlaylist = () => {
   function AddSong(id) {
     let addSongs = markedToAdd;
     const element = document.getElementById(id);
+    if(!element){
+      return;
+    }
     var found = false;
 
     for (let el in addSongs) {
@@ -98,8 +139,8 @@ const EditPlaylist = () => {
         <td>
           <button
             type="button"
-            id={allSongs.indexOf(p)}
-            onClick={() => AddSong(allSongs.indexOf(p))}
+            id={p.id}
+            onClick={() => AddSong(p.id)}
             style={{
                 backgroundColor: "#10012b",
                 color: "#e1aaff"
@@ -111,35 +152,23 @@ const EditPlaylist = () => {
     )
   });
 
-  const createPlaylist = () => {
-    const playlistName = document.getElementById('PlaylistName').value;
+  const updatePlaylist = () => {
+    let playlistName = document.getElementById('PlaylistName').value;
     let personalSongs = []
     markedToAdd.forEach((index) => {
       personalSongs.push(allSongs[index]);
     });
 
-    let playlistId = 1;
-    if (user.playlist.length) {
-      playlistId = user.playlist[user.playlist.length - 1].id + 1
-    }
-
     const playlist_ = {
-      id: playlistId,
       name: playlistName,
-      cover: "rock.jpg",
       about: "Melhores músicas do momento, aperte play e entre no clima!",
-      songs: personalSongs
+      user_id: userId,
+      song: personalSongs
     }
-    let playlist = user.playlist;
-    playlist.push(playlist_);
-    const updatedUser = {
-      ...user,
-      playlist
-    }
-    axios.put(`http://localhost:8080/api/users/${userId}/`, updatedUser);
-    setUser(updatedUser);
 
-    navigate(`/users/${userId}/playlists/`)
+    axios.post(`http://localhost:8080/api/playlists/`, playlist_);
+
+    navigate(`/playlists/`)
   };
 
   const getSearchTerm = () => {
@@ -154,7 +183,7 @@ const EditPlaylist = () => {
       setSearchResults(songsArray);
     }
   }
-
+  console.log(allSongs);
   return (
     <Form>
       <Container>
@@ -163,8 +192,8 @@ const EditPlaylist = () => {
           <Col md={4}><Form.Group>
             <Form.Control type="text" placeholder="Nome da Playlist" id="PlaylistName" />
           </Form.Group></Col>
-          <Col md={3}><Button variant="primary" type="button" onClick={() => createPlaylist()}>
-            Criar Playlist
+          <Col md={3}><Button variant="primary" type="button" onClick={() => updatePlaylist()}>
+            Salvar Playlist
           </Button></Col>
           <Col md={2}></Col>
         </Row>
