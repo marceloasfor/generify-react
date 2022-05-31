@@ -37,34 +37,19 @@ const EditPlaylist = () => {
   };
 
   const [playlist, setPlaylist] = useState(playlistFormat);
-  
   useEffect(() => {
     axios.get(`http://localhost:8080/api/playlists/${playlist_id}/?user_id=${userId}`)
       .then(
         (response) => {
-          setPlaylist(response.data);
-          for (let i in playlist.song) {
-            AddSong(playlist.song[i].id);
+          const playlist_ = response.data;
+          for (let i in playlist_.song) {
+            AddSong(playlist_.song[i].id);
           }
-          document.getElementById('PlaylistName').value = playlist.name;
+          document.getElementById('PlaylistName').value = playlist_.name;
+          setPlaylist(response.data);
         }
       )
-  }, []);
-
-  // useEffect(() => {
-  //   async function fetchPlaylist() {
-  //     axios.get(`http://localhost:8080/api/playlists/${playlist_id}/?user_id=${userId}`)
-  //       .then(
-  //         (response) => {
-  //           setPlaylist(response.data);
-  //           for (let i in playlist.song) {
-  //             AddSong(playlist.song[i].id);
-  //           }
-  //         }
-  //       )
-  //   }
-  //   fetchPlaylist();
-  // }, [userId, playlist_id]);
+  }, [authenticated]);
 
   const allSongsTemplate = [
     {
@@ -155,9 +140,10 @@ const EditPlaylist = () => {
   const updatePlaylist = () => {
     let playlistName = document.getElementById('PlaylistName').value;
     let personalSongs = []
-    markedToAdd.forEach((index) => {
-      personalSongs.push(allSongs[index]);
-    });
+    for(let index in markedToAdd) {
+      const getSong = allSongs.find(song => song.id === markedToAdd[index]);
+      personalSongs.push(getSong);
+    }
 
     const playlist_ = {
       name: playlistName,
@@ -166,9 +152,8 @@ const EditPlaylist = () => {
       song: personalSongs
     }
 
-    axios.post(`http://localhost:8080/api/playlists/`, playlist_);
-
-    navigate(`/playlists/`)
+    axios.put(`http://localhost:8080/api/playlists/${playlist_id}/?user_id=${userId}`, playlist_);
+    navigate(`/users/${userId}/playlists`);
   };
 
   const getSearchTerm = () => {
@@ -183,7 +168,7 @@ const EditPlaylist = () => {
       setSearchResults(songsArray);
     }
   }
-  console.log(allSongs);
+
   return (
     <Form>
       <Container>

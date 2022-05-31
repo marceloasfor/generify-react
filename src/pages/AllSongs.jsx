@@ -115,7 +115,7 @@ const AllSongs = () => {
     }
 
     axios.post(`http://localhost:8080/api/playlists/?user_id=${userId}`, playlist_);
-    navigate(`/playlists/`)
+    navigate(`/users/${userId}/playlists`);
   };
 
   const getSearchTerm = () => {

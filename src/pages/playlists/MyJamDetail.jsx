@@ -42,11 +42,10 @@ const MyJamDetail = () => {
         .then(
           (response) => {
             setPlaylist(response.data);
-            console.log(playlist);
           }
         )
     }
-  }, [id, authenticated]);
+  }, [id, authenticated, pId, currentUser.id]);
 
   useEffect(() => {
     if (!authenticated) navigate("/login");
